@@ -48,8 +48,8 @@ jobs:
             sleep 2
           done
           test -s /tmp/index.html
-          docker exec smoke sh -c 'test -L /config/bin/ffmpeg && /config/bin/ffprobe -version'
-          docker exec smoke sh -c 'grep -rl "标签排序" /usr/bin/xbvr >/dev/null'
+          docker exec smoke sh -c 'ffmpeg -version && ffprobe -version'
+          docker exec smoke sh -c 'grep -aql "标签排序" /usr/bin/xbvr'
           docker tag xbvr-zh:smoke ghcr.io/ohmylady111/xbvr:zh-cn-${{ matrix.arch }}
           docker push ghcr.io/ohmylady111/xbvr:zh-cn-${{ matrix.arch }}
   manifest:

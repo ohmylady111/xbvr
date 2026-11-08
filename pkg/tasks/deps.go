@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 
@@ -16,6 +17,10 @@ import (
 )
 
 func CheckDependencies() {
+	if os.Getenv("XBVR_USE_SYSTEM_FFMPEG") == "true" {
+		ffprobe.SetFFProbeBinPath(GetBinPath("ffprobe"))
+		return
+	}
 	// Check ffprobe
 	ffprobePath := filepath.Join(common.BinDir, "ffprobe")
 	if runtime.GOOS == "windows" {
@@ -41,6 +46,11 @@ func CheckDependencies() {
 }
 
 func GetBinPath(tool string) string {
+	if os.Getenv("XBVR_USE_SYSTEM_FFMPEG") == "true" {
+		if path, err := exec.LookPath(tool); err == nil {
+			return path
+		}
+	}
 	path := filepath.Join(common.BinDir, tool)
 	if runtime.GOOS == "windows" {
 		path = path + ".exe"

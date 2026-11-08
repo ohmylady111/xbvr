@@ -1,6 +1,7 @@
 FROM node:24-bookworm-slim AS ui
 WORKDIR /src
 COPY package.json yarn.lock ./
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
 RUN npm install --package-lock=false
 COPY ui ./ui
 RUN node --test ui/tests/*.test.cjs && npm run build
@@ -21,7 +22,7 @@ COPY --from=build /out/xbvr /usr/bin/xbvr
 COPY xbvr_data /usr/bin/xbvr_data
 COPY deploy/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod 755 /usr/local/bin/docker-entrypoint.sh
-ENV XBVR_APPDIR=/config TZ=Asia/Shanghai
+ENV XBVR_APPDIR=/config TZ=Asia/Shanghai XBVR_USE_SYSTEM_FFMPEG=true
 EXPOSE 9999 9998
 VOLUME ["/config"]
 ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
