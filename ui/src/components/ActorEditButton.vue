@@ -1,7 +1,7 @@
 <template>
   <a class="button is-dark is-outlined is-small"
     @click="editActor(actor)"
-    title="Edit Actor details">
+    :title="$t('Edit Actor details')">
     <b-icon pack="mdi" icon="lead-pencil" size="is-small" />
   </a>
 </template>

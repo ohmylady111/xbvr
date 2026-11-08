@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-divider" data-content="Saved searches" style="margin-top:0.8em;"></div>
+    <div class="is-divider" :data-content="$t('Saved searches')" style="margin-top:0.8em;"></div>
 
      <SavedSearch/> 
 
@@ -61,7 +61,7 @@
                 :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
                 :key="tag+index" :tabstop="false" closable  @close="cast=cast.filter(e => e !== tag)" @click="toggle2Way(tag,index,'cast')">              
                 <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? 'Must Have ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? $t('Must Have ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='&'" icon="plus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   {{removeConditionPrefix(tag)}}
@@ -74,13 +74,13 @@
       <b-field :label="$t('Site')" label-position="on-border" class="field-extra">
         <b-taginput v-model="sites" autocomplete :data="filteredSites" @typing="getFilteredSites">
           <template slot-scope="props">{{ props.option }}</template>
-          <template slot="empty">{{ $t("No matching sites") }}No matching sites</template>
+          <template slot="empty">{{ $t("No matching sites") }}</template>
           <template #selected="props">
             <b-tag v-for="(tag, index) in props.tags"
               :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
               :key="tag+index" :tabstop="false" closable  @close="sites=sites.filter(e => e !== tag)" @click="toggle3way(tag,index,'sites')">
                 <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   {{removeConditionPrefix(tag)}}
                 </b-tooltip>
@@ -225,7 +225,7 @@ export default {
         this.$store.dispatch('actorList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.actorList.isLoading = false
       })
@@ -248,7 +248,7 @@ export default {
         this.$store.dispatch('actorList/filters')       
         this.reloadList()        
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.actorList.isLoading = false
       })
@@ -263,7 +263,7 @@ export default {
         this.$store.dispatch('actorList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.actorList.isLoading = false
       })
@@ -336,7 +336,7 @@ export default {
       return txt
     },
     async fetchFilters() {
-        this.filteredAttributes=['Loading attributes']
+        this.filteredAttributes=[this.$t(this.$t("Loading attributes"))]
         ky.get('/api/actor/filters').json().then(data => {
           this.filteredAttributes=data.attributes          
       })      

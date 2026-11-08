@@ -4,7 +4,7 @@
 
     <div class="columns is-multiline is-full">
       <div class="column">
-        <strong>{{total}} results</strong>
+        <strong>{{total}} {{ $t('results') }}</strong>
       </div>
       <div class="column">
         <div class="columns is-gapless">

@@ -12,7 +12,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ $t("Match file to scene") }}</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
       <section class="modal-card-body">
         <div>
@@ -22,7 +22,7 @@
             <br/>
             {{ prettyBytes(file.size) }},
             <span v-if="file.type == 'video'">{{ file.video_width }}x{{ file.video_height }}, </span>
-            <span v-if="file.duration > 0">{{ Math.floor(file.duration / 60) }} min,</span>
+            <span v-if="file.duration > 0">{{ Math.floor(file.duration / 60) }} {{ $t('min,') }}</span>
             {{ format(parseISO(file.created_time), "yyyy-MM-dd") }}
           </small>
 
@@ -30,17 +30,17 @@
             <b-taglist>
               <b-tag class="tag is-info is-small">{{$t('Search Fields')}}</b-tag>
               <b-tooltip :label="$t('Optional: select one or more words to target searching to a specific field')" :delay="500" position="is-top">
-                <b-button @click='searchPrefix("+title:")' class="tag is-info is-small is-light">title:</b-button>
-                <b-button @click='searchPrefix("cast:")' class="tag is-info is-small is-light">cast:</b-button>
-                <b-button @click='searchPrefix("+site:")' class="tag is-info is-small is-light">site:</b-button>
-                <b-button @click='searchPrefix("+id:")' class="tag is-info is-small is-light">id:</b-button>
+                <b-button @click='searchPrefix("+title:")' class="tag is-info is-small is-light">{{ $t('title:') }}</b-button>
+                <b-button @click='searchPrefix("cast:")' class="tag is-info is-small is-light">{{ $t('cast:') }}</b-button>
+                <b-button @click='searchPrefix("+site:")' class="tag is-info is-small is-light">{{ $t('site:') }}</b-button>
+                <b-button @click='searchPrefix("+id:")' class="tag is-info is-small is-light">{{ $t('id:') }}</b-button>
               </b-tooltip>&nbsp;
               <b-tooltip :label="$t('Add file duration to search')" :delay="500" position="is-top">
-                <b-button @click='searchDurationPrefix("duration:")' class="tag is-info is-small is-light">duration:</b-button>
+                <b-button @click='searchDurationPrefix("duration:")' class="tag is-info is-small is-light">{{ $t('duration:') }}</b-button>
               </b-tooltip>&nbsp;
               <b-tooltip :label="$t('Defaults date range to the last week. Note:must match yyyy-mm-dd, include leading zeros')" :delay="500" position="is-top">
-                <b-button @click='searchDatePrefix("released:")' class="tag is-info is-small is-light">released:</b-button>
-                <b-button @click='searchDatePrefix("added:")' class="tag is-info is-small is-light">added:</b-button>
+                <b-button @click='searchDatePrefix("released:")' class="tag is-info is-small is-light">{{ $t('released:') }}</b-button>
+                <b-button @click='searchDatePrefix("added:")' class="tag is-info is-small is-light">{{ $t('added:') }}</b-button>
               </b-tooltip>
             </b-taglist>          
           </b-field>
@@ -60,7 +60,7 @@
             </b-table-column>
             <b-table-column field="site" :label="$t('Site')" sortable v-slot="props">
               <a :href="props.row.scene_url" target="_blank" rel="noreferrer">{{ props.row.site }}</a><br>
-              <b-tooltip v-if="props.row.is_hidden" label="Flagged as Hidden"  :delay="250" >
+              <b-tooltip v-if="props.row.is_hidden" :label="$t('Flagged as Hidden')"  :delay="250" >
                 <b-tag type="is-info is-light" >
                   <b-icon pack="mdi" icon="eye-off-outline" size="is-small" style="margin-right:0.1em"/>                
                 </b-tag>&nbsp;
@@ -103,8 +103,8 @@
         </div>
       </section>
     </div>
-    <a class="prev" @click="prevFile" title="Keyboard shortcut: O">&#10094;</a>
-    <a class="next" @click="nextFile" title="Keyboard shortcut: P">&#10095;</a>
+    <a class="prev" @click="prevFile" :title="$t('Keyboard shortcut: O')">&#10094;</a>
+    <a class="next" @click="nextFile" :title="$t('Keyboard shortcut: P')">&#10095;</a>
   </div>
 </template>
 

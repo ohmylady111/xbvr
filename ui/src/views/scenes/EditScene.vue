@@ -10,7 +10,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ this.scene.id == 0 ? $t('Display scene details') : $t('Edit scene details') }}</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
 
       <section class="modal-card-body">
@@ -53,7 +53,7 @@
             <b-field :label="$t('Cast')">
               <b-taginput type="is-warning"
                           icon="label"
-                          placeholder="Add an actor"
+                          :placeholder="$t('Add an actor')"
                           v-model="scene.castArray"
                           autocomplete
                           :allow-new="true"
@@ -66,7 +66,7 @@
             <b-field :label="$t('Tags')">
               <b-taginput type="is-info"
                           icon="label"
-                          placeholder="Add a tag"
+                          :placeholder="$t('Add a tag')"
                           v-model="scene.tagsArray"
                           autocomplete
                           :allow-new="true"
@@ -183,9 +183,9 @@ export default {
     close () {
       if (this.changesMade) {
         this.$buefy.dialog.confirm({
-          title: 'Close without saving',
-          message: 'Are you sure you want to close before saving your changes?',
-          confirmText: 'Close',
+          title: this.$t("Close without saving"),
+          message: this.$t("Are you sure you want to close before saving your changes?"),
+          confirmText: this.$t("Close"),
           type: 'is-warning',
           hasIcon: true,
           onConfirm: () => this.$store.commit('overlay/hideEditDetails')
@@ -246,7 +246,7 @@ export default {
           console.error('Failed to save scene:', error);
           // Show user-friendly error message
           this.$buefy.toast.open({
-            message: 'Failed to save scene changes. Please try again.',
+            message: this.$t("Failed to save scene changes. Please try again."),
             type: 'is-danger',
             duration: 5000
           });
@@ -254,8 +254,8 @@ export default {
     },
     deletescene () {
       this.$buefy.dialog.confirm({
-        title: 'Delete scene',
-        message: `Do you really want to delete the scene <strong>${this.scene.title}</strong> from <strong>${this.scene.studio}</strong>? If this is an existing scene, it will be re-added during the next scrape.`,
+        title: this.$t("Delete scene"),
+        message: this.$t("Do you really want to delete the scene <strong>{value0}</strong> from <strong>{value1}</strong>? If this is an existing scene, it will be re-added during the next scrape.", { value0: this.scene.title, value1: this.scene.studio }),
         type: 'is-info is-wide',
         hasIcon: true,
         id: 'heh',

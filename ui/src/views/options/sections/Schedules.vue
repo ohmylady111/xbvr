@@ -5,11 +5,11 @@
       <h3>{{$t("Task Schedules")}}</h3>
       <hr/>
       <b-tabs v-model="activeTab" size="medium" type="is-boxed" style="margin-left: 0px" id="importexporttab">
-            <b-tab-item label="Rescrape"/>
-            <b-tab-item label="Rescan"/>
-            <b-tab-item label="Preview Generation"/>
-            <b-tab-item label="Actor Rescrape"/>
-            <b-tab-item label="Stashdb Rescrape"/>
+            <b-tab-item :label="$t('Rescrape')"/>
+            <b-tab-item :label="$t('Rescan')"/>
+            <b-tab-item :label="$t('Preview Generation')"/>
+            <b-tab-item :label="$t('Actor Rescrape')"/>
+            <b-tab-item :label="$t('Stashdb Rescrape')"/>
             <b-tab-item :label="$t('Link Scenes')"/>
       </b-tabs>
       <div class="columns">
@@ -18,14 +18,14 @@
             <div v-if="activeTab == 0">
               <h4>{{$t("Scrape Sites")}}</h4>
               <b-field>
-                <b-switch v-model="rescrapeEnabled">Enable schedule</b-switch>
+                <b-switch v-model="rescrapeEnabled">{{ $t('Enable schedule') }}</b-switch>
               </b-field>
               <b-field v-if="rescrapeEnabled">
                 <b-slider v-model="rescrapeHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-                <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.rescrapeHourInterval} hour${this.rescrapeHourInterval > 1 ? 's': ''}`}}</div>
+                <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.rescrapeHourInterval })}}</div>
               </b-field>
               <b-field>
-                <b-switch v-if="rescrapeEnabled" v-model="useRescrapeTimeRange">Limit time of day</b-switch>
+                <b-switch v-if="rescrapeEnabled" v-model="useRescrapeTimeRange">{{ $t('Limit time of day') }}</b-switch>
               </b-field>
               <div v-if="useRescrapeTimeRange && rescrapeEnabled">
                 <b-field>
@@ -34,7 +34,7 @@
                     <b-slider-tick :value="6">06:00</b-slider-tick>
                     <b-slider-tick :value="12">12:00</b-slider-tick>
                     <b-slider-tick :value="18">18:00</b-slider-tick>
-                    <b-slider-tick :value="24">Midnight</b-slider-tick>
+                    <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                     <b-slider-tick :value="30">06:00</b-slider-tick>
                     <b-slider-tick :value="36">12:00</b-slider-tick>
                     <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -48,22 +48,22 @@
                 </b-field>
               </div>
               <br/>
-              <b-field label="Startup">
+              <b-field :label="$t('Startup')">
                   <b-slider v-model="rescrapeStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                   <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(rescrapeStartDelay) }}</div>
               </b-field>
             </div>
-            <div v-if="activeTab == 1">            
+            <div v-if="activeTab == 1">
               <h4>{{$t("Rescan Folders")}}</h4>
               <b-field>
-                <b-switch v-model="rescanEnabled">Enable schedule</b-switch>
+                <b-switch v-model="rescanEnabled">{{ $t('Enable schedule') }}</b-switch>
               </b-field>
               <b-field v-if="rescanEnabled">
                 <b-slider v-model="rescanHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-                <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.rescanHourInterval} hour${this.rescanHourInterval > 1 ? 's': ''}`}}</div>
+                <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.rescanHourInterval })}}</div>
               </b-field>
               <b-field>
-                <b-switch v-if="rescanEnabled" v-model="useRescanTimeRange">Limit time of day</b-switch>
+                <b-switch v-if="rescanEnabled" v-model="useRescanTimeRange">{{ $t('Limit time of day') }}</b-switch>
               </b-field>
               <div v-if="useRescanTimeRange && rescanEnabled">
                 <b-field>
@@ -72,7 +72,7 @@
                     <b-slider-tick :value="6">06:00</b-slider-tick>
                     <b-slider-tick :value="12">12:00</b-slider-tick>
                     <b-slider-tick :value="18">18:00</b-slider-tick>
-                    <b-slider-tick :value="24">Midnight</b-slider-tick>
+                    <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                     <b-slider-tick :value="30">06:00</b-slider-tick>
                     <b-slider-tick :value="36">12:00</b-slider-tick>
                     <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -86,21 +86,21 @@
                 </b-field>
               </div>
               <br/>
-              <b-field label="Startup">
+              <b-field :label="$t('Startup')">
                   <b-slider v-model="rescanStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                   <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(rescanStartDelay) }}</div>
               </b-field>
             </div>
-           <div v-if="activeTab == 2">            
+           <div v-if="activeTab == 2">
               <b-field>
-                <b-switch v-model="previewEnabled">Enable schedule</b-switch>
+                <b-switch v-model="previewEnabled">{{ $t('Enable schedule') }}</b-switch>
               </b-field>
               <b-field v-if="previewEnabled">
                 <b-slider v-model="previewHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-                <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.previewHourInterval} hour${this.previewHourInterval > 1 ? 's': ''}`}}</div>
+                <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.previewHourInterval })}}</div>
               </b-field>
               <b-field>
-                <b-switch v-if="previewEnabled" v-model="usePreviewTimeRange">Limit time of day</b-switch>
+                <b-switch v-if="previewEnabled" v-model="usePreviewTimeRange">{{ $t('Limit time of day') }}</b-switch>
               </b-field>
               <div v-if="usePreviewTimeRange && previewEnabled">
                 <b-field>
@@ -109,7 +109,7 @@
                     <b-slider-tick :value="6">06:00</b-slider-tick>
                     <b-slider-tick :value="12">12:00</b-slider-tick>
                     <b-slider-tick :value="18">18:00</b-slider-tick>
-                    <b-slider-tick :value="24">Midnight</b-slider-tick>
+                    <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                     <b-slider-tick :value="30">06:00</b-slider-tick>
                     <b-slider-tick :value="36">12:00</b-slider-tick>
                     <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -122,28 +122,28 @@
                   <div class="column is-one-third" style="margin-left:.75em">{{ minutesStartMsg(previewMinuteStart) }}</div>
                 </b-field>
                 <p>
-                  Preview Generation of a scene will not start after the Time Window Ends
+                  {{ $t('Preview Generation of a scene will not start after the Time Window Ends') }}
                 </p>
               </div>
               <br/>
-              <b-field label="Startup">
+              <b-field :label="$t('Startup')">
                   <b-slider v-model="previewStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                   <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(previewStartDelay) }}</div>
               </b-field>
               <p>
-                BETA NOTE: Please note this is CPU-heavy process, if approriate limit the Time of Day the task runs                  
-              </p>                  
+                {{ $t('BETA NOTE: Please note this is CPU-heavy process, if approriate limit the Time of Day the task runs') }}
+              </p>
             </div>
-           <div v-if="activeTab == 3">            
+           <div v-if="activeTab == 3">
               <b-field>
-                <b-switch v-model="actorRescrapeEnabled">Enable schedule</b-switch>
+                <b-switch v-model="actorRescrapeEnabled">{{ $t('Enable schedule') }}</b-switch>
               </b-field>
               <b-field v-if="actorRescrapeEnabled">
                 <b-slider v-model="actorRescrapeHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-                <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.actorRescrapeHourInterval} hour${this.actorRescrapeHourInterval > 1 ? 's': ''}`}}</div>
+                <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.actorRescrapeHourInterval })}}</div>
               </b-field>
               <b-field>
-                <b-switch v-if="actorRescrapeEnabled" v-model="useActorRescrapeTimeRange">Limit time of day</b-switch>
+                <b-switch v-if="actorRescrapeEnabled" v-model="useActorRescrapeTimeRange">{{ $t('Limit time of day') }}</b-switch>
               </b-field>
               <div v-if="useActorRescrapeTimeRange && actorRescrapeEnabled">
                 <b-field>
@@ -152,7 +152,7 @@
                     <b-slider-tick :value="6">06:00</b-slider-tick>
                     <b-slider-tick :value="12">12:00</b-slider-tick>
                     <b-slider-tick :value="18">18:00</b-slider-tick>
-                    <b-slider-tick :value="24">Midnight</b-slider-tick>
+                    <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                     <b-slider-tick :value="30">06:00</b-slider-tick>
                     <b-slider-tick :value="36">12:00</b-slider-tick>
                     <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -166,23 +166,23 @@
                 </b-field>
               </div>
               <br/>
-              <b-field label="Startup">
+              <b-field :label="$t('Startup')">
                   <b-slider v-model="actorRescrapeStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                   <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(actorRescrapeStartDelay) }}</div>
               </b-field>
             </div>
-           <div v-if="activeTab == 4">            
+           <div v-if="activeTab == 4">
               <b-field>
                 <b-tooltip :active="stashApiKey==''" :label="$t('Enter a StashApi key to enable')" >
-                  <b-switch v-model="stashdbRescrapeEnabled" :disabled="stashApiKey==''">Enable schedule</b-switch>
+                  <b-switch v-model="stashdbRescrapeEnabled" :disabled="stashApiKey==''">{{ $t('Enable schedule') }}</b-switch>
                 </b-tooltip>
               </b-field>
               <b-field v-if="stashdbRescrapeEnabled">
                 <b-slider v-model="stashdbRescrapeHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-                <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.stashdbRescrapeHourInterval} hour${this.stashdbRescrapeHourInterval > 1 ? 's': ''}`}}</div>
+                <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.stashdbRescrapeHourInterval })}}</div>
               </b-field>
               <b-field>
-                <b-switch v-if="stashdbRescrapeEnabled" v-model="useStashdbRescrapeTimeRange">Limit time of day</b-switch>
+                <b-switch v-if="stashdbRescrapeEnabled" v-model="useStashdbRescrapeTimeRange">{{ $t('Limit time of day') }}</b-switch>
               </b-field>
               <div v-if="useStashdbRescrapeTimeRange && stashdbRescrapeEnabled">
                 <b-field>
@@ -191,7 +191,7 @@
                     <b-slider-tick :value="6">06:00</b-slider-tick>
                     <b-slider-tick :value="12">12:00</b-slider-tick>
                     <b-slider-tick :value="18">18:00</b-slider-tick>
-                    <b-slider-tick :value="24">Midnight</b-slider-tick>
+                    <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                     <b-slider-tick :value="30">06:00</b-slider-tick>
                     <b-slider-tick :value="36">12:00</b-slider-tick>
                     <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -205,21 +205,21 @@
                 </b-field>
               </div>
               <br/>
-              <b-field label="Startup">
+              <b-field :label="$t('Startup')">
                   <b-slider v-model="stashdbRescrapeStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                   <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(stashdbRescrapeStartDelay) }}</div>
               </b-field>
             </div>
-           <div v-if="activeTab == 5">            
+           <div v-if="activeTab == 5">
             <b-field>
-              <b-switch v-model="linkScenesEnabled">Enable schedule</b-switch>
+              <b-switch v-model="linkScenesEnabled">{{ $t('Enable schedule') }}</b-switch>
             </b-field>
             <b-field v-if="linkScenesEnabled">
               <b-slider v-model="linkScenesHourInterval" :min="1" :max="23" :step="1" ></b-slider>
-              <div class="column is-one-third" style="margin-left:.75em">{{`Run every ${this.linkScenesHourInterval} hour${this.linkScenesHourInterval > 1 ? 's': ''}`}}</div>
+              <div class="column is-one-third" style="margin-left:.75em">{{$t('Run every {hours} hours', { hours: this.linkScenesHourInterval })}}</div>
             </b-field>
             <b-field>
-              <b-switch v-if="linkScenesEnabled" v-model="useLinkScenesTimeRange">Limit time of day</b-switch>
+              <b-switch v-if="linkScenesEnabled" v-model="useLinkScenesTimeRange">{{ $t('Limit time of day') }}</b-switch>
             </b-field>
             <div v-if="useLinkScenesTimeRange && linkScenesEnabled">
               <b-field>
@@ -228,7 +228,7 @@
                   <b-slider-tick :value="6">06:00</b-slider-tick>
                   <b-slider-tick :value="12">12:00</b-slider-tick>
                   <b-slider-tick :value="18">18:00</b-slider-tick>
-                  <b-slider-tick :value="24">Midnight</b-slider-tick>
+                  <b-slider-tick :value="24">{{ $t('Midnight') }}</b-slider-tick>
                   <b-slider-tick :value="30">06:00</b-slider-tick>
                   <b-slider-tick :value="36">12:00</b-slider-tick>
                   <b-slider-tick :value="42">18:00</b-slider-tick>
@@ -241,24 +241,24 @@
                 <div class="column is-one-third" style="margin-left:.75em">{{ minutesStartMsg(linkScenesMinuteStart) }}</div>
               </b-field>
               <p>
-                Linking Scenes will not start after the Time Window Ends
+                {{ $t('Linking Scenes will not start after the Time Window Ends') }}
               </p>
             </div>
             <br/>
-            <b-field label="Startup">
+            <b-field :label="$t('Startup')">
                 <b-slider v-model="linkScenesStartDelay" :min="0" :max="60" :step="1" ></b-slider>
                 <div class="column is-one-third" style="margin-left:.75em">{{ delayStartMsg(linkScenesStartDelay) }}</div>
             </b-field>
           </div>
             <hr/>
               <b-field grouped>
-                <b-button type="is-primary" @click="saveSettings" style="margin-right:1em">Save settings</b-button>
+                <b-button type="is-primary" @click="saveSettings" style="margin-right:1em">{{ $t('Save settings') }}</b-button>
               </b-field>
           </section>
           <hr/>
           <section>
             <p>
-              Restart XBVR to use new schedule settings
+              {{ $t('Restart XBVR to use new schedule settings') }}
             </p>
           </section>
         </div>
@@ -294,7 +294,7 @@ export default {
       previewHourInterval: 0,
       previewMinuteStart: 0,
       lastPreviewTimeRange: [0,23],
-      usePreviewTimeRange: false,      
+      usePreviewTimeRange: false,
       rescrapeStartDelay: 0,
       rescanStartDelay: 0,
       previewStartDelay: 0,
@@ -303,21 +303,21 @@ export default {
       actorRescrapeHourInterval: 0,
       actorRescrapeMinuteStart: 0,
       lastActorRescrapeTimeRange: [0,23],
-      useActorRescrapeTimeRange: false,      
+      useActorRescrapeTimeRange: false,
       actorRescrapeStartDelay: 0,
       stashdbRescrapeEnabled: false,
       stashdbRescrapeTimeRange:[0,23],
       stashdbRescrapeHourInterval: 0,
       stashdbRescrapeMinuteStart: 0,
       lastStashdbRescrapeTimeRange: [0,23],
-      useStashdbRescrapeTimeRange: false,      
+      useStashdbRescrapeTimeRange: false,
       stashdbRescrapeStartDelay: 0,
       linkScenesEnabled: false,
       linkScenesTimeRange:[0,23],
       linkScenesHourInterval: 0,
       linkScenesMinuteStart: 0,
       lastlinkScenesTimeRange: [0,23],
-      useLinkScenesTimeRange: false,      
+      useLinkScenesTimeRange: false,
       linkScenesStartDelay: 0,
       timeRange: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00', '09:00', '10:00', '11:00',
         '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00',
@@ -330,7 +330,7 @@ export default {
   },
   computed: {
     stashApiKey: {
-      get () {        
+      get () {
         return this.$store.state.optionsAdvanced.advanced.stashApiKey
       },
       set (value) {
@@ -400,15 +400,15 @@ export default {
           this.actorRescrapeEnabled = data.config.cron.actorRescrapeSchedule.enabled
           this.actorRescrapeHourInterval = data.config.cron.actorRescrapeSchedule.hourInterval
           this.useActorRescrapeTimeRange = data.config.cron.actorRescrapeSchedule.useRange
-          this.actorRescrapeMinuteStart = data.config.cron.actorRescrapeSchedule.minuteStart          
+          this.actorRescrapeMinuteStart = data.config.cron.actorRescrapeSchedule.minuteStart
           this.stashdbRescrapeEnabled = data.config.cron.stashdbRescrapeSchedule.enabled
           this.stashdbRescrapeHourInterval = data.config.cron.stashdbRescrapeSchedule.hourInterval
           this.useStashdbRescrapeTimeRange = data.config.cron.stashdbRescrapeSchedule.useRange
-          this.stashdbRescrapeMinuteStart = data.config.cron.stashdbRescrapeSchedule.minuteStart          
+          this.stashdbRescrapeMinuteStart = data.config.cron.stashdbRescrapeSchedule.minuteStart
           this.linkScenesEnabled = data.config.cron.linkScenesSchedule.enabled
           this.linkScenesHourInterval = data.config.cron.linkScenesSchedule.hourInterval
           this.useLinkScenesTimeRange = data.config.cron.linkScenesSchedule.useRange
-          this.linkScenesMinuteStart = data.config.cron.linkScenesSchedule.minuteStart          
+          this.linkScenesMinuteStart = data.config.cron.linkScenesSchedule.minuteStart
           if (data.config.cron.rescrapeSchedule.hourStart > data.config.cron.rescrapeSchedule.hourEnd) {
             this.rescrapeTimeRange = [data.config.cron.rescrapeSchedule.hourStart, data.config.cron.rescrapeSchedule.hourEnd + 24]
           } else {
@@ -422,52 +422,52 @@ export default {
           if (data.config.cron.previewSchedule.hourStart > data.config.cron.previewSchedule.hourEnd) {
             this.previewTimeRange = [data.config.cron.previewSchedule.hourStart, data.config.cron.previewSchedule.hourEnd + 24]
           } else {
-            this.previewTimeRange = [data.config.cron.previewSchedule.hourStart, data.config.cron.previewSchedule.hourEnd]            
+            this.previewTimeRange = [data.config.cron.previewSchedule.hourStart, data.config.cron.previewSchedule.hourEnd]
           }
           if (data.config.cron.actorRescrapeSchedule.hourStart > data.config.cron.actorRescrapeSchedule.hourEnd) {
             this.actorRescrapeTimeRange = [data.config.cron.actorRescrapeSchedule.hourStart, data.config.cron.actorRescrapeSchedule.hourEnd + 24]
           } else {
-            this.actorRescrapeTimeRange = [data.config.cron.actorRescrapeSchedule.hourStart, data.config.cron.actorRescrapeSchedule.hourEnd]            
+            this.actorRescrapeTimeRange = [data.config.cron.actorRescrapeSchedule.hourStart, data.config.cron.actorRescrapeSchedule.hourEnd]
           }
-          
+
           if (data.config.cron.stashdbRescrapeSchedule.hourStart > data.config.cron.stashdbRescrapeSchedule.hourEnd) {
             this.stashdbRescrapeTimeRange = [data.config.cron.stashdbRescrapeSchedule.hourStart, data.config.cron.stashdbRescrapeSchedule.hourEnd + 24]
           } else {
-            this.stashdbRescrapeTimeRange = [data.config.cron.stashdbRescrapeSchedule.hourStart, data.config.cron.stashdbRescrapeSchedule.hourEnd]            
+            this.stashdbRescrapeTimeRange = [data.config.cron.stashdbRescrapeSchedule.hourStart, data.config.cron.stashdbRescrapeSchedule.hourEnd]
           }
 
           if (data.config.cron.linkScenesSchedule.hourStart > data.config.cron.linkScenesSchedule.hourEnd) {
             this.linkScenesTimeRange = [data.config.cron.linkScenesSchedule.hourStart, data.config.cron.linkScenesSchedule.hourEnd + 24]
           } else {
-            this.linkScenesTimeRange = [data.config.cron.linkScenesSchedule.hourStart, data.config.cron.linkScenesSchedule.hourEnd]            
+            this.linkScenesTimeRange = [data.config.cron.linkScenesSchedule.hourStart, data.config.cron.linkScenesSchedule.hourEnd]
           }
-          
+
           this.rescrapeStartDelay = data.config.cron.rescrapeSchedule.runAtStartDelay
-          this.rescanStartDelay = data.config.cron.rescanSchedule.runAtStartDelay          
+          this.rescanStartDelay = data.config.cron.rescanSchedule.runAtStartDelay
           this.previewStartDelay = data.config.cron.previewSchedule.runAtStartDelay
-          this.actorRescrapeStartDelay = data.config.cron.actorRescrapeSchedule.runAtStartDelay          
-          this.stashdbRescrapeStartDelay = data.config.cron.stashdbRescrapeSchedule.runAtStartDelay          
-          this.linkScenesStartDelay = data.config.cron.linkScenesSchedule.runAtStartDelay          
+          this.actorRescrapeStartDelay = data.config.cron.actorRescrapeSchedule.runAtStartDelay
+          this.stashdbRescrapeStartDelay = data.config.cron.stashdbRescrapeSchedule.runAtStartDelay
+          this.linkScenesStartDelay = data.config.cron.linkScenesSchedule.runAtStartDelay
           this.isLoading = false
         })
     },
     minutesStartMsg (start) {
       if (start === 0) {
-        return 'Start on the hour'
+        return this.$t(this.$t("Start on the hour"))
       }
       if (start === 1) {
-        return 'Start at 1 minute past the hour'
+        return this.$t(this.$t("Start at 1 minute past the hour"))
       }
-      return `Start at ${start} minutes past the hour`
+      return this.$t('Start at {minutes} minutes past the hour', { minutes: start })
     },
     delayStartMsg (start) {
       if (start === 0) {
-        return 'Do not run at statup'
+        return this.$t(this.$t("Do not run at statup"))
       }else{
         if (start === 1) {
-          return `Run at 1 minute after startup`
+          return this.$t("Run at 1 minute after startup")
         }else{
-          return `Run at ${start} minutes after startup`
+          return this.$t('Run at {minutes} minutes after startup', { minutes: start })
         }
       }
     },
@@ -516,7 +516,7 @@ export default {
           linkScenesMinuteStart: this.linkScenesMinuteStart,
           linkScenesHourStart: this.linkScenesTimeRange[0],
           linkScenesHourEnd: this.linkScenesTimeRange[1],
-          linkScenesStartDelay:this.linkScenesStartDelay          
+          linkScenesStartDelay:this.linkScenesStartDelay
         }
       })
         .json()

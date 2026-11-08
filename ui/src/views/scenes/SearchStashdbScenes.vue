@@ -10,14 +10,14 @@
 
     <div class="modal-card" :style="getOverlayPosition()">
       <header class="modal-card-head">
-        <p class="modal-card-title">Search Stashdb Scenes</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <p class="modal-card-title">{{ $t('Search Stashdb Scenes') }}</p>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
 
       <div class="modal-card-body">
                 <div >
-          <b-field label="Find scene...">
-            <b-input v-model="queryString" placeholder="Find scene..." @input="debouncedSearch" :loading="isFetching" custom-class="is-large"/>
+          <b-field :label="$t('Find scene...')">
+            <b-input v-model="queryString" :placeholder="$t('Find scene...')" @input="debouncedSearch" :loading="isFetching" custom-class="is-large"/>
           </b-field>
     
         <b-table :data="searchResults" >
@@ -31,13 +31,13 @@
                         <img slot="error" src="/ui/images/blank.png" height="150"/>
                     </vue-load-image>
                     <div v-if="tooltipImage!='' && tooltipImage==props.row.ImageUrl" class="tooltipimg">
-                      <img :src="tooltipImage" alt="Tooltip Image" width="400px" />
+                      <img :src="tooltipImage" :alt="$t('Tooltip Image')" width="400px" />
                     </div>
-                  <div v-if="props.row.Date!=''"><small><strong>Released:</strong> {{format(parseISO(props.row.Date), "yyyy-MM-dd")}}</small></div>
-                  <div v-if="props.row.Duration!=''"><small><strong>Durn:</strong> {{ props.row.Duration }}</small></div>
-                  <div><small><strong>Score:</strong> {{ props.row.Weight }}</small></div>
+                  <div v-if="props.row.Date!=''"><small><strong>{{ $t('Released:') }}</strong> {{format(parseISO(props.row.Date), "yyyy-MM-dd")}}</small></div>
+                  <div v-if="props.row.Duration!=''"><small><strong>{{ $t('Durn:') }}</strong> {{ props.row.Duration }}</small></div>
+                  <div><small><strong>{{ $t('Score:') }}</strong> {{ props.row.Weight }}</small></div>
                   <div>
-                    <a class="button is-primary is-small" @click="linktoStashdb(props.row)" :title="'Link scene with stashdb'">
+                    <a class="button is-primary is-small" @click="linktoStashdb(props.row)" :title="$t('Link scene with stashdb')">
                       <b-icon pack="mdi" :icon="'link-variant-plus'" size="is-small"/>
                     </a>
                   </div>
@@ -107,12 +107,12 @@ export default {
       this.$store.commit('overlay/hideSearchStashdbScenes')
     },
     searchStashdb() {
-        this.$buefy.toast.open({message: `Searching scenes`, type: 'is-primary', duration: 5000})
+        this.$buefy.toast.open({message: this.$t("Searching scenes"), type: 'is-primary', duration: 5000})
         ky.get('/api/extref/stashdb/search/' + this.scene.id + "?q=" + this.queryString, {timeout: 6e6}).json().then(data => {
             this.searchResults = Object.values(data.Results).sort((a, b) => b.Weight - a.Weight)
             this.isModalActive = true
             if (data.Status!='') {
-              this.$buefy.toast.open({message: `Warning:  ${data.Status}`, type: 'is-warning', duration: 5000})
+              this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.Status }), type: 'is-warning', duration: 5000})
             }
         })
     },

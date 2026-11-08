@@ -2,7 +2,7 @@
   <a :class="buttonClass"
      v-if="!item.is_available"
      @click="toggleState()"
-     :title="item.wishlist ? 'Remove from wishlist' : 'Add to wishlist'">
+     :title="item.wishlist ? $t('Remove from wishlist') : $t('Add to wishlist')">
     <b-icon pack="mdi" icon="oil-lamp" size="is-small"/>
   </a>
 </template>

@@ -7,90 +7,90 @@
       <div class="columns">
         <div class="column">
           <section>
-            <b-field label="Tag Sort">
+            <b-field :label="$t('Tag Sort')">
               <div class="block">
                 <b-radio v-model="tagSort" name="tagSort" native-value="by-tag-count">
-                  By Tag Count
+                  {{ $t('By Tag Count') }}
                 </b-radio>
                 <b-radio v-model="tagSort" name="tagSort" native-value="alphabetically">
-                  Alphabetically
+                  {{ $t('Alphabetically') }}
                 </b-radio>
               </div>
             </b-field>
 
-            <b-field label="Buttons in Scene List">
+            <b-field :label="$t('Buttons in Scene List')">
             </b-field>
             <b-field>
               <b-switch v-model="sceneHidden" type="is-danger">
-                show Toggle Hidden Status button
+                {{ $t('show Toggle Hidden Status button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneWatchlist" type="is-default">
-                show Add/Remove from Watchlist button
+                {{ $t('show Add/Remove from Watchlist button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneFavourite" type="is-danger">
-                show Add/Remove from Favourites button
+                {{ $t('show Add/Remove from Favourites button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneWishlist" type="is-info">
-                show Add/Remove from Wishlist button
+                {{ $t('show Add/Remove from Wishlist button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneTrailerlist" type="is-default">
-                show Add/Remove from Trailer list button
+                {{ $t('show Add/Remove from Trailer list button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneWatched" type="is-dark">
-                show Toggle Watched Status button
+                {{ $t('show Toggle Watched Status button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneEdit" type="is-dark">
-                show Edit Scene button
+                {{ $t('show Edit Scene button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneDuration" type="is-dark">
-                show Duration button
+                {{ $t('show Duration button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="sceneCuepoint" type="is-dark">
-                show Cuepoints button
+                {{ $t('show Cuepoints button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="hspFile" type="is-dark">
-                show Hsp File button
+                {{ $t('show Hsp File button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="subtitlesFile" type="is-dark">
-                show subtitles File button
+                {{ $t('show subtitles File button') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="ScriptHeatmap" type="is-dark">
-                show Script Heatmap
+                {{ $t('show Script Heatmap') }}
               </b-switch>
             </b-field>
             <b-field v-if="ScriptHeatmap">
               <b-switch v-model="AllHeatmaps" type="is-dark">
-                show All Heatmaps
+                {{ $t('show All Heatmaps') }}
               </b-switch>
             </b-field>
             <b-field>
               <b-switch v-model="openInNewWindow" type="is-dark">
-                show Open Tag in New Window
+                {{ $t('show Open Tag in New Window') }}
               </b-switch>
             </b-field>
-            <b-field label="Opacity of unavailable scenes">
+            <b-field :label="$t('Opacity of unavailable scenes')">
               <div class="columns">
                 <div class="column is-two-thirds">
                   <b-slider :min="0" :max="100" :step="10" :tooltip="false" v-model="isAvailOpacity" opacity:isAvailOpacity></b-slider>
@@ -98,8 +98,8 @@
               </div>
             </b-field>
 
-            <b-field label="Scene card aspect ratio">
-              <b-select placeholder="Select aspect ratio" v-model="sceneCardAspectRatio">
+            <b-field :label="$t('Scene card aspect ratio')">
+              <b-select :placeholder="$t('Select aspect ratio')" v-model="sceneCardAspectRatio">
                 <option>1:1</option>
                 <option>3:2</option>
                 <option>16:9</option>
@@ -107,12 +107,12 @@
             </b-field>
             <b-field>
               <b-switch v-model="sceneCardScaleToFit" type="is-dark">
-                Scale cover to fit
+                {{ $t('Scale cover to fit') }}
               </b-switch>
             </b-field>
 
-            <b-field label="Actor card aspect ratio">
-              <b-select placeholder="Select aspect ratio" v-model="actorCardAspectRatio">
+            <b-field :label="$t('Actor card aspect ratio')">
+              <b-select :placeholder="$t('Select aspect ratio')" v-model="actorCardAspectRatio">
                 <option>1:1</option>
                 <option>2:3</option>
                 <option>9:16</option>
@@ -120,18 +120,18 @@
             </b-field>
             <b-field>
               <b-switch v-model="actorCardScaleToFit" type="is-dark">
-                Scale cover to fit
+                {{ $t('Scale cover to fit') }}
               </b-switch>
             </b-field>
 
-            <b-field label="Automatically Check for Updates">
+            <b-field :label="$t('Automatically Check for Updates')">
               <b-switch v-model="updateCheck">
-                Enabled
+                {{ $t('Enabled') }}
               </b-switch>
             </b-field>
 
             <b-field>
-              <b-button type="is-primary" @click="save">Save</b-button>
+              <b-button type="is-primary" @click="save">{{ $t('Save') }}</b-button>
             </b-field>
           </section>
         </div>

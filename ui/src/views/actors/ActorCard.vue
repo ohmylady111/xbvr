@@ -41,9 +41,9 @@
             <img slot="image" :src="getImageURL('https://flagcdn.com/' + actor.nationality.toLowerCase() +'.svg')" style="height:10px;border: 1px solid black;margin-left:0.5em" />
           </vue-load-image>
           <div>
-          <span v-if="actor.scenes.length == 1">{{actor.scenes.length}} scene</span>
-          <span v-if="actor.scenes.length > 1">{{actor.scenes.length}} scenes</span>
-          <span v-if="actor.avail_count > 0">, {{actor.avail_count}} available</span>
+          <span v-if="actor.scenes.length == 1">{{actor.scenes.length}} {{ $t('scene') }}</span>
+          <span v-if="actor.scenes.length > 1">{{actor.scenes.length}} {{ $t('scenes') }}</span>
+          <span v-if="actor.avail_count > 0">, {{actor.avail_count}} {{ $t('available') }}</span>
           </div>
       </span>
     </div>

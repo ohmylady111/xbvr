@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="is-divider" data-content="Saved searches" style="margin-top:0.8em;"></div>
+    <div class="is-divider" :data-content="$t('Saved searches')" style="margin-top:0.8em;"></div>
 
     <SavedSearch/>
 
@@ -65,19 +65,19 @@
       </div>
     </b-field>
 
-    <b-field label="Watched" label-position="on-border" :addons="true" class="field-extra">
+    <b-field :label="$t('Watched')" label-position="on-border" :addons="true" class="field-extra">
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select v-model="isWatched">
-            <option :value="null">Everything</option>
-            <option :value="true">Watched</option>
-            <option :value="false">Unwatched</option>
+            <option :value="null">{{ $t('Everything') }}</option>
+            <option :value="true">{{ $t('Watched') }}</option>
+            <option :value="false">{{ $t('Unwatched') }}</option>
           </select>
         </div>
       </div>
     </b-field>
 
-    <b-field label="Release month" label-position="on-border" :addons="true" class="field-extra">
+    <b-field :label="$t('Release month')" label-position="on-border" :addons="true" class="field-extra">
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select v-model="releaseMonth">
@@ -93,7 +93,7 @@
       </div>
     </b-field>
 
-    <b-field label="Folder" label-position="on-border" :addons="true" class="field-extra">
+    <b-field :label="$t('Folder')" label-position="on-border" :addons="true" class="field-extra">
       <div class="control is-expanded">
         <div class="select is-fullwidth">
           <select v-model="volume">
@@ -112,16 +112,16 @@
     <div class="is-divider" data-content="Filters"></div>
 
     <div v-if="Object.keys(filters).length !== 0">
-      <b-field label="Cast" label-position="on-border" class="field-extra">
+      <b-field :label="$t('Cast')" label-position="on-border" class="field-extra">
         <b-taginput v-model="cast" autocomplete :data="filteredCast" @typing="getFilteredCast">
           <template slot-scope="props">{{ props.option }}</template>
-          <template slot="empty">No matching cast</template>
+          <template slot="empty">{{ $t('No matching cast') }}</template>
           <template #selected="props">
               <b-tag v-for="(tag, index) in props.tags"
                 :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
-                :key="tag+index" :tabstop="false" closable  @close="cast=cast.filter(e => e !== tag)" @click="toggle3way(tag,index,'cast')">              
+                :key="tag+index" :tabstop="false" closable  @close="cast=cast.filter(e => e !== tag)" @click="toggle3way(tag,index,'cast')">
                 <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? 'Must Have ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? $t('Must Have ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='&'" icon="plus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   {{removeConditionPrefix(tag)}}
@@ -131,16 +131,16 @@
         </b-taginput>
       </b-field>
 
-      <b-field label="Site" label-position="on-border" class="field-extra">
+      <b-field :label="$t('Site')" label-position="on-border" class="field-extra">
         <b-taginput v-model="sites" autocomplete :data="filteredSites" @typing="getFilteredSites">
           <template slot-scope="props">{{ props.option }}</template>
-          <template slot="empty">No matching sites</template>
+          <template slot="empty">{{ $t('No matching sites') }}</template>
           <template #selected="props">
             <b-tag v-for="(tag, index) in props.tags"
               :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
               :key="tag+index" :tabstop="false" closable  @close="sites=sites.filter(e => e !== tag)" @click="toggle2Way(tag,index,'sites')">
                 <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   {{removeConditionPrefix(tag)}}
                 </b-tooltip>
@@ -149,16 +149,16 @@
         </b-taginput>
       </b-field>
 
-      <b-field label="Tags" label-position="on-border" class="field-extra">
+      <b-field :label="$t('Tags')" label-position="on-border" class="field-extra">
         <b-taginput v-model="tags" autocomplete :data="filteredTags" @typing="getFilteredTags">
           <template slot-scope="props">{{ props.option }}</template>
-          <template slot="empty">No matching tags</template>
+          <template slot="empty">{{ $t('No matching tags') }}</template>
           <template #selected="props">
             <b-tag v-for="(tag, index) in props.tags"
               :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
-              :key="tag+index" :tabstop="false" closable  @close="tags=tags.filter(e => e !== tag)" @click="toggle3way(tag,index,'tags')"> 
+              :key="tag+index" :tabstop="false" closable  @close="tags=tags.filter(e => e !== tag)" @click="toggle3way(tag,index,'tags')">
               <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? 'Must Have ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? $t('Must Have ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                 <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                 <b-icon pack="mdi" v-if="tag.charAt(0)=='&'" icon="plus-circle-outline" size="is-small" class="tagicon"></b-icon>
                 {{removeConditionPrefix(tag)}}
@@ -168,16 +168,16 @@
         </b-taginput>
       </b-field>
 
-      <b-field label="Cuepoint" label-position="on-border" class="field-extra">
+      <b-field :label="$t('Cuepoint')" label-position="on-border" class="field-extra">
         <b-taginput v-model="cuepoint" autocomplete :data="filteredCuepoints" @typing="getFilteredCuepoints">
           <template slot-scope="props">{{ props.option }}</template>
-          <template slot="empty">No matching cuepoints</template>
+          <template slot="empty">{{ $t('No matching cuepoints') }}</template>
           <template #selected="props">
             <b-tag v-for="(tag, index) in props.tags"
               :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
-              :key="tag+index" :tabstop="false" closable  @close="cuepoint=cuepoint.filter(e => e !== tag)" @click="toggle3way(tag,index,'cuepoints')"> 
+              :key="tag+index" :tabstop="false" closable  @close="cuepoint=cuepoint.filter(e => e !== tag)" @click="toggle3way(tag,index,'cuepoints')">
               <b-tooltip position="is-right" :delay="200"
-                  :label="tag.charAt(0)=='!' ? 'Exclude ' + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? 'Must Have ' + removeConditionPrefix(tag) : 'Include ' + removeConditionPrefix(tag)">
+                  :label="tag.charAt(0)=='!' ? $t('Exclude ') + removeConditionPrefix(tag) : tag.charAt(0)=='&' ? $t('Must Have ') + removeConditionPrefix(tag) : $t('Include ') + removeConditionPrefix(tag)">
                 <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                 <b-icon pack="mdi" v-if="tag.charAt(0)=='&'" icon="plus-circle-outline" size="is-small" class="tagicon"></b-icon>
                 {{removeConditionPrefix(tag)}}
@@ -187,42 +187,42 @@
         </b-taginput>
       </b-field>
 
-      <b-tooltip position="is-top" label="Allows searching a variety of attributes such as: scenes in Watchlists, Favourites, Has Video, Scripts or HSP Files, Subscriptions, Ratings, Cuepoint Types, Number of Cast, FOV, Projection, Resolution, Frame Rate and Codecs" multilined :delay="1000" style="width:100%">
-        <b-field label="Attributes" label-position="on-border" class="field-extra">        
+      <b-tooltip position="is-top" :label="$t('Allows searching a variety of attributes such as: scenes in Watchlists, Favourites, Has Video, Scripts or HSP Files, Subscriptions, Ratings, Cuepoint Types, Number of Cast, FOV, Projection, Resolution, Frame Rate and Codecs')" multilined :delay="1000" style="width:100%">
+        <b-field :label="$t('Attributes')" label-position="on-border" class="field-extra">
           <b-taginput v-model="attributes" autocomplete :data="filteredAttributes" @typing="getFilteredAttributes">
             <template slot-scope="props">{{ props.option }}</template>
-            <template slot="empty">No matching attributes</template>
+            <template slot="empty">{{ $t('No matching attributes') }}</template>
             <template #selected="props">
               <b-tag v-for="(tag, index) in props.tags"
                 :type="tag.charAt(0)=='!' ? 'is-danger': (tag.charAt(0)=='&' ? 'is-success' : '')"
-                :key="tag+index" :tabstop="false" closable  @close="attributes=attributes.filter(e => e !== tag)" @click="toggle3way(tag,index,'attributes')"> 
+                :key="tag+index" :tabstop="false" closable  @close="attributes=attributes.filter(e => e !== tag)" @click="toggle3way(tag,index,'attributes')">
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='!'" icon="minus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   <b-icon pack="mdi" v-if="tag.charAt(0)=='&'" icon="plus-circle-outline" size="is-small" class="tagicon"></b-icon>
                   {{removeConditionPrefix(tag)}}
               </b-tag>
-            </template>          
+            </template>
           </b-taginput>
         </b-field>
       </b-tooltip>
     </div>
     <div class="is-divider" data-content="Actor Also Known As groups"></div>
     <b-field>
-      <b-tooltip position="is-right" label="New Aka Group. Select 2 or more actors in the Cast filter" multilined :delay="200">
+      <b-tooltip position="is-right" :label="$t('New Aka Group. Select 2 or more actors in the Cast filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="createAkaGroup" :disabled="disableNewAkaGroup">
           <b-icon pack="mdi" icon="account-multiple-plus-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-right" label="Select the Aka Group to delete in the Cast Filter" multilined :delay="200">
+      <b-tooltip position="is-right" :label="$t('Select the Aka Group to delete in the Cast Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="deleteAkaGroup" :disabled="disableDeleteAkaGroup">
           <b-icon pack="mdi" icon="delete-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Add Cast to Aka Group. Select the Aka group and Actors to add in the Cast Filter" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Add Cast to Aka Group. Select the Aka group and Actors to add in the Cast Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="addToAkaGroup" :disabled="disableAddToAkaGroup">
           <b-icon pack="mdi" icon="account-plus-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Remove Cast from Aka Group. Select the Aka group and Actors to remove in the Cast Filter" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Remove Cast from Aka Group. Select the Aka group and Actors to remove in the Cast Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="removeFromAkaGroup" :disabled="disableRemoveFromAkaGroup">
           <b-icon pack="mdi" icon="account-minus-outline"></b-icon>
         </button>
@@ -231,32 +231,32 @@
     </b-field>
     <div class="is-divider" data-content="Tag Groups"></div>
     <b-field>
-      <b-tooltip position="is-right" label="New Tag Group. Select 2 or more tags in the Tag filter" multilined :delay="200">
+      <b-tooltip position="is-right" :label="$t('New Tag Group. Select 2 or more tags in the Tag filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="showGroupTagNameDialog('create')" :disabled="disableNewTagGroup">
           <b-icon pack="mdi" icon="tag-multiple-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-right" label="Select the Tag Group to delete in the Tag Filter" multilined :delay="200">
+      <b-tooltip position="is-right" :label="$t('Select the Tag Group to delete in the Tag Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="deleteTagGroup" :disabled="disableDeleteRenameTagGroup">
           <b-icon pack="mdi" icon="delete-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Add Tag to Tag Group. Select the Tag  group and Tag to add in the Tag Filter" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Add Tag to Tag Group. Select the Tag group and Tag to add in the Tag Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="addToTagGroup" :disabled="disableAddToTagGroup">
           <b-icon pack="mdi" icon="tag-plus-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Remove Tag from Tag Group. Select the Tag group and Tags to remove in the Tag Filter" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Remove Tag from Tag Group. Select the Tag group and Tags to remove in the Tag Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="removeFromTagGroup" :disabled="disableRemoveFromTagGroup">
           <b-icon pack="mdi" icon="tag-minus-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Rename Tag Group. Select the Tag group in the Tag Filter" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Rename Tag Group. Select the Tag group in the Tag Filter')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="showGroupTagNameDialog('rename')" :disabled="disableDeleteRenameTagGroup">
           <b-icon pack="mdi" icon="rename-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="List Tags in Group" multilined :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('List Tags in Group')" multilined :delay="200">
         <button class="button is-small is-outlined" @click="getTagGroup" :disabled="disableGetTagGroup">
           <b-icon pack="mdi" icon="tag-search-outline"></b-icon>
         </button>
@@ -269,19 +269,19 @@
              aria-modal>
       <div class="modal-card" style="width: auto">
         <header class="modal-card-head">
-          <p class="modal-card-title">Tag Group</p>
+          <p class="modal-card-title">{{ $t('Tag Group') }}</p>
         </header>
         <section class="modal-card-body">
-          <b-field label="Name">
+          <b-field :label="$t('Name')">
             <b-input
               type="name"
               v-model="tagGroupName"
               required>
             </b-input>
-          </b-field>          
+          </b-field>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" :disabled="tagGroupName===''" @click="tagGroupModalClicked()">Save
+          <button class="button is-primary" :disabled="tagGroupName===''" @click="tagGroupModalClicked()">{{ $t('Save') }}
           </button>
         </footer>
       </div>
@@ -327,7 +327,7 @@ export default {
       this.filteredCast = this.filters.cast.filter(option => (
         option.toString().toLowerCase().indexOf(text.toLowerCase()) >= 0 &&
         !this.cast.some(entry => this.removeConditionPrefix(entry.toString()) === option.toString())
-      ))      
+      ))
     },
     getFilteredSites (text) {
       this.filteredSites = this.filters.sites.filter(option => (
@@ -369,7 +369,7 @@ export default {
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.sceneList.isLoading = false
       })
@@ -381,33 +381,33 @@ export default {
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         this.$store.state.sceneList.isLoading = false
-      })       
+      })
     },
     addToAkaGroup () {
       this.$store.state.sceneList.isLoading = true
-      ky.post('/api/aka/add', {json: {actorList: this.cast}}).json().then(data => {        
+      ky.post('/api/aka/add', {json: {actorList: this.cast}}).json().then(data => {
         // delete old aka & add new name
-        this.cast = this.cast.filter(e => !e.startsWith("aka:")) 
-        this.cast.push(data.akas.aka_actor.name) 
-        this.$store.dispatch('sceneList/filters')       
-        this.reloadList()        
-        if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
-        }
-        this.$store.state.sceneList.isLoading = false
-      })
-      
-    },
-    removeFromAkaGroup () {
-      this.$store.state.sceneList.isLoading = true
-      ky.post('/api/aka/remove', {json: {actorList: this.cast}}).json().then(data => {        
-        // delete old aka & add new name
-        this.cast = this.cast.filter(e => !e.startsWith("aka:")) 
+        this.cast = this.cast.filter(e => !e.startsWith("aka:"))
         this.cast.push(data.akas.aka_actor.name)
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
+        }
+        this.$store.state.sceneList.isLoading = false
+      })
+
+    },
+    removeFromAkaGroup () {
+      this.$store.state.sceneList.isLoading = true
+      ky.post('/api/aka/remove', {json: {actorList: this.cast}}).json().then(data => {
+        // delete old aka & add new name
+        this.cast = this.cast.filter(e => !e.startsWith("aka:"))
+        this.cast.push(data.akas.aka_actor.name)
+        this.$store.dispatch('sceneList/filters')
+        this.reloadList()
+        if (data.status != '') {
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.sceneList.isLoading = false
       })
@@ -434,7 +434,7 @@ export default {
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.sceneList.isLoading = false
       })
@@ -446,27 +446,27 @@ export default {
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         this.$store.state.sceneList.isLoading = false
-      })       
+      })
     },
-    addToTagGroup () {      
+    addToTagGroup () {
       this.$store.state.sceneList.isLoading = true
       ky.post('/api/tag_group/add', {json: {tagList: this.tags}}).json().then(data => {
-        this.$store.dispatch('sceneList/filters')       
-        this.reloadList()        
-        if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
-        }
-        this.$store.state.sceneList.isLoading = false
-      })
-      
-    },
-    removeFromTagGroup () {
-      this.$store.state.sceneList.isLoading = true
-      ky.post('/api/tag_group/remove', {timeout: 60000, json: {tagList: this.tags}}).json().then(data => {        
         this.$store.dispatch('sceneList/filters')
         this.reloadList()
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
+        }
+        this.$store.state.sceneList.isLoading = false
+      })
+
+    },
+    removeFromTagGroup () {
+      this.$store.state.sceneList.isLoading = true
+      ky.post('/api/tag_group/remove', {timeout: 60000, json: {tagList: this.tags}}).json().then(data => {
+        this.$store.dispatch('sceneList/filters')
+        this.reloadList()
+        if (data.status != '') {
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         this.$store.state.sceneList.isLoading = false
       })
@@ -489,13 +489,13 @@ export default {
     getTagGroup () {
       this.$store.state.sceneList.isLoading = true
       let name = ""
-      for (var i = 0; i < this.tags.length; i++) {        
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
            name = this.tags[i]
         }
       }
 
-      ky.get('/api/tag_group/' + name, {timeout: 60000}).json().then(data => {        
+      ky.get('/api/tag_group/' + name, {timeout: 60000}).json().then(data => {
         if (data.status != '') {
           this.$buefy.toast.open({message: `${data.status}`, type: 'is-danger', duration: 5000})
         } else {
@@ -510,11 +510,11 @@ export default {
       })
       this.$store.state.sceneList.isLoading = false
     },
-    toggle3way (text, idx, list) {      
+    toggle3way (text, idx, list) {
       let tags = []
       switch (list) {
         case 'cast':
-          tags=this.cast 
+          tags=this.cast
           break
         case 'tags':
           tags=this.tags
@@ -525,7 +525,7 @@ export default {
         case 'attributes':
           tags=this.attributes
           break
-      }      
+      }
       switch(tags[idx].charAt(0)) {
         case '!':
           tags[idx]=this.removeConditionPrefix(tags[idx])
@@ -534,8 +534,8 @@ export default {
           tags[idx]='!' + this.removeConditionPrefix(tags[idx])
         break
         default:
-        tags[idx]='&'+text        
-      }      
+        tags[idx]='&'+text
+      }
       switch (list) {
         case 'cast':
           this.cast=tags
@@ -550,37 +550,37 @@ export default {
           this.attributes=tags
           break
       }
-    },    
-    toggle2Way (text, idx, list) {      
+    },
+    toggle2Way (text, idx, list) {
       let tags = []
       switch (list) {
         case 'sites':
           tags=this.sites
-      }      
+      }
       switch(tags[idx].charAt(0)) {
         case '!':
           tags[idx]=this.removeConditionPrefix(tags[idx])
           break
         default:
-        tags[idx]='!'+text        
-      }      
+        tags[idx]='!'+text
+      }
       switch (list) {
         case 'sites':
           this.sites=tags
           break
-      }      
-    },    
+      }
+    },
     removeConditionPrefix(txt) {
       if (txt.charAt(0)=='!' || txt.charAt(0)=='&') {
-        return txt.substring(1) 
+        return txt.substring(1)
       }
       return txt
     },
     async fetchFilters() {
-        this.filteredAttributes=['Loading attributes']
+        this.filteredAttributes=[this.$t(this.$t("Loading attributes"))]
         ky.get('/api/scene/filters', {timeout: 300000}).json().then(data => {
-          this.filteredAttributes=data.attributes          
-      })      
+          this.filteredAttributes=data.attributes
+      })
     }
   },
   computed: {
@@ -656,7 +656,7 @@ export default {
       },
       set (value) {
         this.$store.state.sceneList.filters.attributes = value
-        this.reloadList()        
+        this.reloadList()
       }
     },
     sort: {
@@ -679,9 +679,9 @@ export default {
     },
     disableNewAkaGroup() {
       let akaCastCnt = 0
-      let actorCnt = 0       
- 
-      for (var i = 0; i < this.cast.length; i++) {        
+      let actorCnt = 0
+
+      for (var i = 0; i < this.cast.length; i++) {
         if (this.cast[i].startsWith("aka:")) {
           akaCastCnt++
         } else {
@@ -693,9 +693,9 @@ export default {
     },
     disableDeleteAkaGroup() {
       let akaCastCnt = 0
-      let actorCnt = 0       
- 
-      for (var i = 0; i < this.cast.length; i++) {        
+      let actorCnt = 0
+
+      for (var i = 0; i < this.cast.length; i++) {
         if (this.cast[i].startsWith("aka:")) {
           akaCastCnt++
         } else {
@@ -703,14 +703,14 @@ export default {
         }
       }
 
-      // you can only delete a group when it is the only thing selected      
+      // you can only delete a group when it is the only thing selected
       return akaCastCnt == 1 && actorCnt == 0 > 1 ? false : true
     },
     disableAddToAkaGroup() {
       let akaCastCnt = 0
-      let actorCnt = 0       
- 
-      for (var i = 0; i < this.cast.length; i++) {        
+      let actorCnt = 0
+
+      for (var i = 0; i < this.cast.length; i++) {
         if (this.cast[i].startsWith("aka:")) {
           akaCastCnt++
         } else {
@@ -723,9 +723,9 @@ export default {
     },
     disableRemoveFromAkaGroup() {
       let akaCastCnt = 0
-      let actorCnt = 0       
- 
-      for (var i = 0; i < this.cast.length; i++) {        
+      let actorCnt = 0
+
+      for (var i = 0; i < this.cast.length; i++) {
         if (this.cast[i].startsWith("aka:")) {
           akaCastCnt++
         } else {
@@ -739,9 +739,9 @@ export default {
     },
     disableNewTagGroup() {
       let akaTagCnt = 0
-      let tagCnt = 0       
- 
-      for (var i = 0; i < this.tags.length; i++) {        
+      let tagCnt = 0
+
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
           akaTagCnt++
         } else {
@@ -753,9 +753,9 @@ export default {
     },
     disableDeleteRenameTagGroup() {
       let tagGroupCnt = 0
-      let tagCnt = 0       
- 
-      for (var i = 0; i < this.tags.length; i++) {        
+      let tagCnt = 0
+
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
           tagGroupCnt++
         } else {
@@ -763,14 +763,14 @@ export default {
         }
       }
 
-      // you can only delete a group when it is the only thing selected      
+      // you can only delete a group when it is the only thing selected
       return tagGroupCnt == 1 && tagCnt == 0 > 1 ? false : true
     },
     disableAddToTagGroup() {
       let tagGroupCnt = 0
-      let tagCnt = 0       
- 
-      for (var i = 0; i < this.tags.length; i++) {        
+      let tagCnt = 0
+
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
           tagGroupCnt++
         } else {
@@ -783,9 +783,9 @@ export default {
     },
     disableRemoveFromTagGroup() {
       let tagGroupCnt = 0
-      let tagCnt = 0       
- 
-      for (var i = 0; i < this.tags.length; i++) {        
+      let tagCnt = 0
+
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
           tagGroupCnt++
         } else {
@@ -799,14 +799,14 @@ export default {
     },
     disableGetTagGroup() {
       let tagGroupCnt = 0
- 
-      for (var i = 0; i < this.tags.length; i++) {        
+
+      for (var i = 0; i < this.tags.length; i++) {
         if (this.tags[i].startsWith("tag group:")) {
           tagGroupCnt++
         }
       }
 
-      // you can list a group if you select one 
+      // you can list a group if you select one
       return tagGroupCnt == 1 ? false : true
 
     },

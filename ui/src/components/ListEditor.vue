@@ -10,7 +10,7 @@
       </p>
       <p class="control">
         <a v-if="showUrl" class="button is-light" 
-          :title="`Go to $(${item}`" :href="item" target="_blank" rel="noreferrer">
+          :title="$t('Go to {url}', { url: item })" :href="item" target="_blank" rel="noreferrer">
           <b-icon pack="mdi" icon="link" size="is-small" />
         </a>
       </p>

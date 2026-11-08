@@ -8,7 +8,7 @@
         <source :src="sourceUrl" type="video/mp4">
       </video>
     </div>
-    <button class="modal-close is-large" aria-label="close"
+    <button class="modal-close is-large" :aria-label="$t('close')"
             @click="close()"></button>
   </div>
 </template>

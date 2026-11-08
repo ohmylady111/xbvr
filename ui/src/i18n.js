@@ -1,5 +1,10 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import { getInitialLocale } from './locale'
+
+// Accessing localStorage itself can throw in restricted browsers.
+let storage
+try { storage = window.localStorage } catch (_) {}
 
 Vue.use(VueI18n)
 
@@ -17,7 +22,7 @@ function loadLocaleMessages () {
 }
 
 export default new VueI18n({
-  locale: navigator.language,
+  locale: getInitialLocale(storage, navigator.language),
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'en-GB',
   messages: loadLocaleMessages()
 })

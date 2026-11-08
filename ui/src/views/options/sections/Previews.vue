@@ -7,27 +7,27 @@
       <div class="columns">
         <div class="column">
           <section>
-            <b-field label="Start time">
+            <b-field :label="$t('Start time')">
               <div class="columns">
                 <div class="column is-two-thirds">
                   <b-slider :min="5" :max="60" :step="5" :tooltip="false" v-model="startTime"></b-slider>
                 </div>
                 <div class="column">
-                  <div class="content">{{startTime}}sec</div>
+                  <div class="content">{{startTime}}{{ $t('sec') }}</div>
                 </div>
               </div>
             </b-field>
-            <b-field label="Snippet length">
+            <b-field :label="$t('Snippet length')">
               <div class="columns">
                 <div class="column is-two-thirds">
                   <b-slider :min="0.2" :max="5" :step="0.2" :tooltip="false" v-model="snippetLength"></b-slider>
                 </div>
                 <div class="column">
-                  <div class="content">{{snippetLength}}sec</div>
+                  <div class="content">{{snippetLength}}{{ $t('sec') }}</div>
                 </div>
               </div>
             </b-field>
-            <b-field label="Number of snippets">
+            <b-field :label="$t('Number of snippets')">
               <div class="columns">
                 <div class="column is-two-thirds">
                   <b-slider :min="2" :max="40" :step="1" :tooltip="false" v-model="snippetAmount"></b-slider>
@@ -38,9 +38,9 @@
               </div>
             </b-field>
             <b-field>
-              <b-checkbox v-model="extraSnippet">Grab extra snippet from the end of video</b-checkbox>
+              <b-checkbox v-model="extraSnippet">{{ $t('Grab extra snippet from the end of video') }}</b-checkbox>
             </b-field>
-            <b-field label="Preview resolution">
+            <b-field :label="$t('Preview resolution')">
               <div class="columns">
                 <div class="column is-two-thirds">
                   <b-slider :min="300" :max="800" :step="20" :tooltip="false" v-model="resolution"></b-slider>
@@ -51,21 +51,20 @@
               </div>
             </b-field>
             <b-field grouped>
-              <b-button type="is-primary" @click="saveSettings" style="margin-right:1em">Save settings</b-button>
-              <b-button @click="testSettings">Test settings</b-button>
+              <b-button type="is-primary" @click="saveSettings" style="margin-right:1em">{{ $t('Save settings') }}</b-button>
+              <b-button @click="testSettings">{{ $t('Test settings') }}</b-button>
             </b-field>
           </section>
           <hr/>
           <section>
             <p>
-              Once you picked preview settings, you should start generating them.
+              {{ $t('Once you picked preview settings, you should start generating them.') }}
             </p>
             <p>
-              BETA NOTE: Please note this is CPU-heavy process and once started, it could be stopped only by closing the
-              app.
+              {{ $t('BETA NOTE: Please note this is CPU-heavy process and once started, it could be stopped only by closing the app.') }}
             </p>
             <b-field>
-              <b-button type="is-primary" @click="startGenerating">Start generating previews</b-button>
+              <b-button type="is-primary" @click="startGenerating">{{ $t('Start generating previews') }}</b-button>
             </b-field>
           </section>
         </div>

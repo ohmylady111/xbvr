@@ -11,7 +11,7 @@
 
     <div class="columns is-multiline is-full">
       <div class="column">
-        <strong>{{total}} results</strong>
+        <strong>{{total}} {{ $t('results') }}</strong>
       </div>
       <div class="column">
         <b-tooltip :label="$t('Press o/left arrow to page back, p/right arrow to page forward')" :delay="500" position="is-top">
@@ -22,10 +22,10 @@
               range-after=3    
               size="is-small"                                           
               :per-page="limit"
-              aria-next-label="Next page"
-              aria-previous-label="Previous page"
-              aria-page-label="Page"
-              aria-current-label="Current page"
+              :aria-next-label="$t('Next page')"
+              :aria-previous-label="$t('Previous page')"
+              :aria-page-label="$t('Page')"
+              :aria-current-label="$t('Current page')"
               :page-input=true
               @change="pageChanged"
               debounce-page-input="250"
@@ -120,10 +120,10 @@
             range-after=3 
             size="is-small"                                              
             :per-page="limit"
-            aria-next-label="Next page"
-            aria-previous-label="Previous page"
-            aria-page-label="Page"
-            aria-current-label="Current page"
+            :aria-next-label="$t('Next page')"
+            :aria-previous-label="$t('Previous page')"
+            :aria-page-label="$t('Page')"
+            :aria-current-label="$t('Current page')"
             :page-input=true
             @change="pageChanged"
             debounce-page-input="250"

@@ -2,29 +2,29 @@
   <div>
     <b-field grouped>
       <b-select size="is-small" @input="setPlaylist" expanded v-model="currentPlaylist">
-        <optgroup label="Web">
+        <optgroup :label="$t('Web')">
           <option v-for="(obj, idx) in playlistsWeb" :value="obj.id" :key="idx">
             {{ obj.name }}
           </option>
         </optgroup>
-        <optgroup label="VR Players">
+        <optgroup :label="$t('VR Players')">
           <option v-for="(obj, idx) in playlistsDeo" :value="obj.id" :key="idx">
             {{ obj.name }}
           </option>
         </optgroup>
       </b-select>
 
-      <b-tooltip position="is-bottom" label="Save as new" :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Save as new')" :delay="200">
         <button class="button is-small is-outlined" @click="showNewDialog">
           <b-icon pack="mdi" icon="content-save-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Edit" :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Edit')" :delay="200">
         <button class="button is-small is-outlined" @click="showEditDialog" :disabled="disableEditDelete">
           <b-icon pack="mdi" icon="square-edit-outline"></b-icon>
         </button>
       </b-tooltip>
-      <b-tooltip position="is-bottom" label="Delete" :delay="200">
+      <b-tooltip position="is-bottom" :label="$t('Delete')" :delay="200">
         <button class="button is-small is-outlined" @click="removePlaylist" :disabled="disableEditDelete">
           <b-icon pack="mdi" icon="delete-outline"></b-icon>
         </button>
@@ -41,17 +41,17 @@
           <p class="modal-card-title">{{ modalTitle }}</p>
         </header>
         <section class="modal-card-body">
-          <b-field label="Name">
+          <b-field :label="$t('Name')">
             <b-input
               type="name"
               v-model="playlistName"
               required>
             </b-input>
           </b-field>
-          <b-checkbox v-model="playlistDeoEnabled">Use as DeoVR list</b-checkbox>
+          <b-checkbox v-model="playlistDeoEnabled">{{ $t('Use as DeoVR list') }}</b-checkbox>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" :disabled="playlistName===''" @click="savePlaylist(modalAction)">Save
+          <button class="button is-primary" :disabled="playlistName===''" @click="savePlaylist(modalAction)">{{ $t('Save') }}
           </button>
         </footer>
       </div>
@@ -80,7 +80,7 @@ export default {
   },
   methods: {
     showNewDialog () {
-      this.modalTitle = 'Create new saved search'
+      this.modalTitle = this.$t(this.$t("Create new saved search"))
       this.modalAction = 'create'
       this.playlistName = ''
       this.playlistDeoEnabled = false
@@ -89,7 +89,7 @@ export default {
     },
     showEditDialog () {
       if (this.currentPlaylistObj !== null) {
-        this.modalTitle = 'Edit saved search'
+        this.modalTitle = this.$t(this.$t("Edit saved search"))
         this.modalAction = 'update'
         this.playlistName = this.currentPlaylistObj.name
         this.playlistDeoEnabled = this.currentPlaylistObj.is_deo_enabled
@@ -130,11 +130,11 @@ export default {
     },
     removePlaylist () {
       this.$buefy.dialog.confirm({
-        title: 'Delete saved search',
-        message: `Do you want to delete saved search <strong>${this.currentPlaylistObj.name}</strong>?`,
+        title: this.$t("Delete saved search"),
+        message: this.$t("Do you want to delete saved search <strong>{value0}</strong>?", { value0: this.currentPlaylistObj.name }),
         type: 'is-danger',
         hasIcon: true,
-        confirmText: 'Delete',
+        confirmText: this.$t("Delete"),
         onConfirm: () => {
           ky.delete(`/api/playlist/${this.currentPlaylistObj.id}`).then(() => {
             this.$store.dispatch('sceneList/filters')

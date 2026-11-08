@@ -1,7 +1,7 @@
 <template>
   <a :class="buttonClass"
      @click="toggleState()"
-     :title="item.watchlist ? 'Remove from watchlist' : 'Add to watchlist'">
+     :title="item.watchlist ? $t('Remove from watchlist') : $t('Add to watchlist')">
     <b-icon pack="mdi" :icon="item.watchlist ? 'calendar-check' : 'calendar-blank'" size="is-small"/>
   </a>
 </template>

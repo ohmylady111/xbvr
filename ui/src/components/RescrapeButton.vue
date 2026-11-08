@@ -58,9 +58,9 @@ export default {
             site = "vrphub-single_scene"
           }
           if (site == "") {
-            this.$buefy.toast.open({message: `No scrapers exist for this domain`, type: 'is-danger', duration: 5000})      
+            this.$buefy.toast.open({message: this.$t("No scrapers exist for this domain"), type: 'is-danger', duration: 5000})
             return
-          }    
+          }
           ky.post(`/api/task/singlescrape`, {timeout: false, json: { site: site, sceneurl: this.item.scene_url, additionalinfo:[] }})
         }
       }

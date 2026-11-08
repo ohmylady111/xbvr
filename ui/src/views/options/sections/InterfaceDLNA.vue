@@ -7,19 +7,19 @@
       <div class="columns">
         <div class="column">
           <section>
-            <b-field label="DLNA server">
+            <b-field :label="$t('DLNA server')">
               <b-switch v-model="enabled">
-                Enabled
+                {{ $t('Enabled') }}
               </b-switch>
             </b-field>
 
-            <b-field label="Visible name">
+            <b-field :label="$t('Visible name')">
               <b-input v-model="name" style="width:200px"></b-input>
             </b-field>
 
             <b-field grouped>
-              <b-field label="Icon">
-                <b-select placeholder="Select image" v-model="image">
+              <b-field :label="$t('Icon')">
+                <b-select :placeholder="$t('Select image')" v-model="image">
                   <option v-for="s in dlnaOptions.availableImages" :value="s" :key="s.id">
                     {{ s }}
                   </option>
@@ -30,22 +30,22 @@
               </b-field>
             </b-field>
 
-            <b-field label="Allowed IP addresses">
-              <b-taginput v-model="allowedIp" :allow-new="true" placeholder="Type in a IP address" class="is-half"></b-taginput>
+            <b-field :label="$t('Allowed IP addresses')">
+              <b-taginput v-model="allowedIp" :allow-new="true" :placeholder="$t('Type in a IP address')" class="is-half"></b-taginput>
             </b-field>
 
             <b-field>
               <p v-if="!isLoading">
-                Recent IP addresses:
+                {{ $t('Recent IP addresses:') }}
                 <span v-if="dlnaOptions.recentIp.length > 0">
                   <b-tag rounded v-for="s in dlnaOptions.recentIp" :value="s" :key="s.id" style="text-decoration: underline; margin-right:0.25em; cursor: pointer;" type="is-info"><span @click="addIP(s)">{{ s }}</span></b-tag>
                 </span>
-                <span v-else>none (connect to DLNA at least once to find out device's IP address)</span>
+                <span v-else>{{ $t('none (connect to DLNA at least once to find out device\'s IP address)') }}</span>
               </p>
             </b-field>
 
             <b-field>
-              <b-button type="is-primary" @click="save">Save and apply changes</b-button>
+              <b-button type="is-primary" @click="save">{{ $t('Save and apply changes') }}</b-button>
             </b-field>
 
           </section>

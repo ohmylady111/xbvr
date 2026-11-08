@@ -23,6 +23,12 @@
       </b-navbar-item>
     </template>
     <template slot="end">
+      <b-navbar-item tag="div">
+        <b-select v-model="language" aria-label="Language / 语言" size="is-small">
+          <option value="zh-CN">简体中文</option>
+          <option value="en-GB">English</option>
+        </b-select>
+      </b-navbar-item>
       <b-navbar-item>
         <table style="font-size:0.9em">
           <tr v-if="Object.keys(lastRescanMessage).length !== 0">
@@ -41,6 +47,7 @@
 
 <script>
 import ky from 'ky'
+import { setLocale } from './locale'
 
 export default {
   data () {
@@ -50,6 +57,14 @@ export default {
     }
   },
   computed: {
+    language: {
+      get () { return this.$i18n.locale },
+      set (value) {
+        let storage
+        try { storage = window.localStorage } catch (_) {}
+        setLocale(value, this.$i18n, storage, document)
+      }
+    },
     lockRescan () {
       return this.$store.state.messages.lockRescan
     },
@@ -70,7 +85,7 @@ export default {
 
       if (data.update_notify && this.currentVersion !== 'CURRENT') {
         this.$buefy.snackbar.open({
-          message: `Version ${this.latestVersion} available!`,
+          message: this.$t('Version {version} available!', { version: this.latestVersion }),
           type: 'is-warning',
           position: 'is-bottom-right',
           actionText: this.$t('Download now'),

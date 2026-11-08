@@ -11,67 +11,66 @@
               <tr>
                 <td>
                   <p>
-                    <strong>Images</strong>
+                    <strong>{{ $t('Images') }}</strong>
                   </p>
                   <p>
-                    Cache of remote images that were requested at least once.
+                    {{ $t('Cache of remote images that were requested at least once.') }}
                   </p>
                 </td>
                 <td nowrap>{{prettyBytes(sizes.images)}}</td>
                 <td>
-                  <b-button size="is-small" @click="resetCache('images')">Reset</b-button>
+                  <b-button size="is-small" @click="resetCache('images')">{{ $t('Reset') }}</b-button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p><strong>Video previews</strong></p>
+                  <p><strong>{{ $t('Video previews') }}</strong></p>
                   <p>
-                    Generated on demand for local files. Remove when you want to generate previews using new settings.
+                    {{ $t('Generated on demand for local files. Remove when you want to generate previews using new settings.') }}
                   </p>
                 </td>
                 <td nowrap>{{prettyBytes(sizes.previews)}}</td>
                 <td>
-                  <b-button size="is-small" @click="resetCache('previews')">Reset</b-button>
+                  <b-button size="is-small" @click="resetCache('previews')">{{ $t('Reset') }}</b-button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p><strong>Search index</strong> <small> - <span v-if="searchInprogress">Indexing In Progress</span> <span v-if="!searchInprogress">{{indexSceneCount}} scenes indexed</span></small></p>
+                  <p><strong>{{ $t('Search index') }}</strong> <small> - <span v-if="searchInprogress">{{ $t('Indexing In Progress') }}</span> <span v-if="!searchInprogress">{{indexSceneCount}} {{ $t('scenes indexed') }}</span></small></p>
                   <p>
-                    Remove search index when facing issues with finding/matching files.
+                    {{ $t('Remove search index when facing issues with finding/matching files.') }}
                   </p>
                 </td>
                 <td nowrap>{{prettyBytes(sizes.searchIndex)}}</td>
                 <td>
                   <b-field>
-                    <b-button size="is-small" @click="resetCache('searchIndex')">Reset</b-button>
-                    <b-button size="is-small" @click="indexRescan" style="margin-left: .25em;">Rescan</b-button>
+                    <b-button size="is-small" @click="resetCache('searchIndex')">{{ $t('Reset') }}</b-button>
+                    <b-button size="is-small" @click="indexRescan" style="margin-left: .25em;">{{ $t('Rescan') }}</b-button>
                   </b-field>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p><strong>Scene status</strong></p>
+                  <p><strong>{{ $t('Scene status') }}</strong></p>
                   <p>
-                    Refresh scene status when scenes are not marked "available" or "scripted" despite having such files assigned.
+                    {{ $t('Refresh scene status when scenes are not marked "available" or "scripted" despite having such files assigned.') }}
                   </p>
                 </td>
                 <td nowrap></td>
                 <td>
-                  <b-button type="is-small" @click="taskRefresh">Refresh Scenes</b-button>
+                  <b-button type="is-small" @click="taskRefresh">{{ $t('Refresh Scenes') }}</b-button>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <p><strong>Fix inconsistencies</strong></p>
+                  <p><strong>{{ $t('Fix inconsistencies') }}</strong></p>
                   <p>
-                    Finds and repairs library data that has drifted out of sync — files matched to deleted or
-                    missing scenes, and scenes whose size or availability no longer matches their files.
+                    {{ $t('Finds and repairs library data that has drifted out of sync — files matched to deleted or missing scenes, and scenes whose size or availability no longer matches their files.') }}
                   </p>
                 </td>
                 <td nowrap><small>{{ fixStatusText }}</small></td>
                 <td>
-                  <b-button size="is-small" :loading="fixRunning" :disabled="fixRunning" @click="fixInconsistencies">Fix All</b-button>
+                  <b-button size="is-small" :loading="fixRunning" :disabled="fixRunning" @click="fixInconsistencies">{{ $t('Fix All') }}</b-button>
                 </td>
               </tr>
             </table>
@@ -145,9 +144,9 @@ export default {
     },
     fixInconsistencies () {
       this.$buefy.dialog.confirm({
-        title: 'Fix inconsistencies',
-        message: 'Scan the library and apply all fixes (re-match/unmatch orphaned files, reset stale scene status)?',
-        confirmText: 'Fix All',
+        title: this.$t("Fix inconsistencies"),
+        message: this.$t("Scan the library and apply all fixes (re-match/unmatch orphaned files, reset stale scene status)?"),
+        confirmText: this.$t("Fix All"),
         type: 'is-warning',
         onConfirm: async () => {
           await ky.post('/api/inconsistencies/fixall', { json: {} })

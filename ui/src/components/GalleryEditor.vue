@@ -19,7 +19,7 @@
     <div style="margin-bottom: 0.25rem; padding: 0;">
       <div style="display: flex; justify-content: space-between; align-items: center; line-height: 1; padding: 0;">
         <span style="font-size: 0.6rem; color: #b5b5b5; line-height: 1; margin: 0;">
-          Drag images to reorder
+          {{ $t('Drag images to reorder') }}
         </span>
         <b-button 
           type="is-light" 
@@ -28,14 +28,14 @@
           :class="{ 'is-info': !isLocked, 'is-warning': isLocked }"
           icon-left="lock"
           style="font-size: 0.6rem; padding: 0.25rem 0.5rem; line-height: 1; margin: 0;">
-          {{ isLocked ? 'Unlock' : 'Lock' }} Delete
+          {{ isLocked ? $t('Unlock') : $t('Lock') }} {{ $t('Delete') }}
         </b-button>
       </div>
     </div>
 
     <draggable :list="internalList" @end="onDragEnd" class="image-grid">
       <div v-for="(item, index) in internalList" :key="index" class="image-item">
-        <img :src="getImageURL(item)" alt="Gallery image" class="gallery-image"/>
+        <img :src="getImageURL(item)" :alt="$t('Gallery image')" class="gallery-image"/>
         <div class="image-controls">
           <b-tooltip :label="$t('Delete Image')" type="is-dark" position="is-top" :delay="500" append-to-body>
             <b-button 
@@ -115,10 +115,10 @@ export default {
         if (itemToDelete === this.coverUrl) {
           // Show confirmation dialog for deleting cover image
           this.$buefy.dialog.confirm({
-            title: 'Delete Cover Image',
-            message: 'You are about to delete the current cover image. This will clear the cover selection. Are you sure you want to continue?',
-            confirmText: 'Delete',
-            cancelText: 'Cancel',
+            title: this.$t("Delete Cover Image"),
+            message: this.$t("You are about to delete the current cover image. This will clear the cover selection. Are you sure you want to continue?"),
+            confirmText: this.$t("Delete"),
+            cancelText: this.$t("Cancel"),
             type: 'is-warning',
             hasIcon: true,
             onConfirm: () => {

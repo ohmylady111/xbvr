@@ -4,15 +4,15 @@
     <div class="modal-card">
       <section class="modal-card-body has-text-centered">
         <div class="content">
-          <h3 class="title is-4">Database Maintenance in Progress</h3>
-          <p class="subtitle is-6">Please wait while the database is being updated...</p>
+          <h3 class="title is-4">{{ $t('Database Maintenance in Progress') }}</h3>
+          <p class="subtitle is-6">{{ $t('Please wait while the database is being updated...') }}</p>
 
           <div v-if="migrationState.total > 0" class="migration-progress">
             <p v-if="migrationPhase" class="migration-phase">{{ migrationPhase }}</p>
             <div class="progress-info">
               <span class="progress-count">{{ migrationState.progress }}/{{ migrationState.total }}</span>
               <span v-if="showETA" class="eta-text">
-                ETA: {{ estimatedTimeRemaining || '∞' }}
+                {{ $t('ETA:') }} {{ estimatedTimeRemaining || '∞' }}
               </span>
             </div>
             <progress
@@ -29,7 +29,7 @@
           </div>
 
           <p class="help-notice mt-4">
-            Web interface will become available when operation is complete.
+            {{ $t('Web interface will become available when operation is complete.') }}
           </p>
         </div>
       </section>

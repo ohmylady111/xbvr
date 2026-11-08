@@ -22,6 +22,7 @@ Vue.config.keyCodes = {
 }
 Vue.use(Buefy)
 Vue.use(vueDebounce)
+document.documentElement.lang = i18n.locale
 
 new Vue({
   router,

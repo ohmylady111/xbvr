@@ -26,7 +26,7 @@
           <div class="column is-half">
             <b-tabs v-model="activeMedia" position="is-centered" :animated="false">
 
-              <b-tab-item label="Gallery">
+              <b-tab-item :label="$t('Gallery')">
                 <b-carousel v-model="carouselSlide" @change="scrollToActiveIndicator" :autoplay="false" :indicator-inside="false">
                   <b-carousel-item v-for="(carousel, i) in images" :key="i">
                     <div class="image is-1by1 is-full"
@@ -44,7 +44,7 @@
                 </b-carousel>
               </b-tab-item>
 
-              <b-tab-item label="Player" v-if="!displayingAlternateSource">
+              <b-tab-item :label="$t('Player')" v-if="!displayingAlternateSource">
                 <video ref="player" class="video-js vjs-default-skin" controls playsinline preload="none"/>
                 <b-field position="is-centered">
                   <b-field>
@@ -74,7 +74,7 @@
               <div class="content">
                 <h3>
                   <span v-if="item.title">{{ item.title }}</span>
-                  <span v-else class="missing">(no title)</span>                  
+                  <span v-else class="missing">{{ $t('(no title)') }}</span>
                   <small class="is-pulled-right">
                     {{ format(parseISO(item.release_date), "yyyy-MM-dd") }}
                   </small>
@@ -84,11 +84,11 @@
                     <small>
                       <a :href="item.scene_url" target="_blank" rel="noreferrer">{{ item.site }}</a>
                       <br v-if="item.members_url != ''"/>
-                      <a v-if="item.members_url != ''" :href="item.members_url" target="_blank" rel="noreferrer"><b-icon pack="mdi" icon="link-lock" custom-size="mdi-18px"/>Members Link</a>
+                      <a v-if="item.members_url != ''" :href="item.members_url" target="_blank" rel="noreferrer"><b-icon pack="mdi" icon="link-lock" custom-size="mdi-18px"/>{{ $t('Members Link') }}</a>
                     </small>
                   </div>
                   <div class="column pb-0">
-                    <small v-if="item.duration" class="is-pulled-right">{{ item.duration }} minutes</small>
+                    <small v-if="item.duration" class="is-pulled-right">{{ item.duration }} {{ $t('minutes') }}</small>
                   </div>
                 </div>
                 <div class="columns is-vcentered">
@@ -101,21 +101,21 @@
                       </b-tooltip>
                     </b-field>
                     <b-field v-if="displayingAlternateSource">
-                      <strong>Linked scene, Not an XBVR Scene</strong>
+                      <strong>{{ $t('Linked scene, Not an XBVR Scene') }}</strong>
                     </b-field>
                   </div>
                   <div class="column pt-0">
                     <div class="is-flex is-pulled-right" style="gap: 0.25rem">
-                      <a class="button is-primary is-outlined is-small" @click="searchAlternateSourceScene()" title="Search for a different scene" v-if="displayingAlternateSource">
+                      <a class="button is-primary is-outlined is-small" @click="searchAlternateSourceScene()" :title="$t('Search for a different scene')" v-if="displayingAlternateSource">
                         <b-icon pack="mdi" icon="movie-search-outline" size="is-small"/>
                       </a>
-                      <a class="button is-primary is-outlined is-small" @click="scrapeScene()" title="Scrape and create an XBVR scene (not a link)" v-if="displayingAlternateSource">
+                      <a class="button is-primary is-outlined is-small" @click="scrapeScene()" :title="$t('Scrape and create an XBVR scene (not a link)')" v-if="displayingAlternateSource">
                         <b-icon pack="mdi" icon="plus" size="is-medium"/>
                       </a>
-                      <a class="button is-primary is-outlined is-small" @click="refreshExtRef()" title="Removes the scene.  Rescrape to refresh the scene data and relink" v-if="displayingAlternateSource">
+                      <a class="button is-primary is-outlined is-small" @click="refreshExtRef()" :title="$t('Removes the scene. Rescrape to refresh the scene data and relink')" v-if="displayingAlternateSource">
                         <b-icon pack="mdi" icon="refresh" size="is-small"/>
                       </a>
-                      <a class="button is-danger is-outlined is-small" @click="flagExtRefDeleted()" title="Unlinks the scene. It cannot be relinked to any scene. This cannot be undone" v-if="displayingAlternateSource">
+                      <a class="button is-danger is-outlined is-small" @click="flagExtRefDeleted()" :title="$t('Unlinks the scene. It cannot be relinked to any scene. This cannot be undone')" v-if="displayingAlternateSource">
                         <b-icon pack="mdi" icon="delete" size="is-small"/>
                       </a>
                       <hidden-button :item="item" v-if="!displayingAlternateSource"/>
@@ -135,7 +135,7 @@
                   <div v-for="(altsrc, idx) in alternateSourcesWithTitles" :key="idx" class="altsrc-image-wrapper" @click="showExtRefScene(altsrc)">
                     <b-tooltip type="is-light" :label="altsrc.title" :delay="100" append-to-body>
                       <vue-load-image>
-                        <img slot="image" :src="getImageURL(altsrc.site_icon)" alt="Image" width="28px" />                        
+                        <img slot="image" :src="getImageURL(altsrc.site_icon)" :alt="$t('Image')" width="28px" />
                         <b-icon slot="error" pack="mdi" icon="link" size="is-small" />
                       </vue-load-image>
                     </b-tooltip>
@@ -148,14 +148,14 @@
               <div v-for="(image, idx) in castimages" :key="idx" class="image-wrapper">
                 <b-tooltip  type="is-light" :label="image.actor_label"  :delay=100>
                   <vue-load-image>
-                    <img slot="image" :src="getImageURL(image.src)" alt="Image" class="thumbnail" @mouseover="showTooltip(idx)" @mouseout="hideTooltip(idx)" @click='showActorDetail([image.actor_id])' />
+                    <img slot="image" :src="getImageURL(image.src)" :alt="$t('Image')" class="thumbnail" @mouseover="showTooltip(idx)" @mouseout="hideTooltip(idx)" @click='showActorDetail([image.actor_id])' />
                     <img slot="preloader" :src="getImageURL('https://i.stack.imgur.com/kOnzy.gif')" style="height: 50px;display: block;margin-left:auto;margin-right: auto;" @click='showCastScenes([image.actor_name])' />
                     <img slot="error" src="/ui/images/blank_female_profile.png" width="80" @click='showActorDetail([image.actor_id])' />
                   </vue-load-image>
                 </b-tooltip>
 
                 <div v-if="image.visible" class="tooltip">
-                  <img :src="getImageURL(image.src)" alt="Tooltip Image" />
+                  <img :src="getImageURL(image.src)" :alt="$t('Tooltip Image')" />
                 </div>
               </div>
             </div>
@@ -174,25 +174,25 @@
                   <a  @click='showTagScenes([tag.name])' class="tag is-info is-small" :style="showOpenInNewWindow ? 'margin-right: 0;': 'margin-right: .5em;'">{{ tag.name }} ({{ tag.count }})</a>
                   <a v-if="showOpenInNewWindow" class="tag is-info is-small" :href='getTagScenesUrl([tag.name])' target="_blank" style="margin-right: 0.5em;"><b-icon pack="mdi" icon="open-in-new" size="is-small"></b-icon></a>
                 </span>
-              </b-taglist>              
+              </b-taglist>
             </div>
 
             <div class="block-tags block" v-if="activeTab == 1">
              <b-taglist>
-              <b-tooltip  type="is-danger" :label="disableSaveMsg()" position="is-right" :delay=250 :active="disableSaveButtons()">
+              <b-tooltip  type="is-danger" :label="$t(disableSaveMsg())" position="is-right" :delay=250 :active="disableSaveButtons()">
                 <b-button @click="updateCuepoint(false)" class="tag is-info is-small is-warning" accesskey="a" :disabled="disableSaveButtons()" >
-                  <u>A</u>dd New
+                  {{ $t('Add New') }}
                 </b-button>
               </b-tooltip>
-                <b-button @click="vidPosition = new Date(0,0,0,0,0, 0, player.currentTime() * 1000)" class="tag is-info is-small is-warning" accesskey="t">Current <u>T</u>ime</b-button>
+                <b-button @click="vidPosition = new Date(0,0,0,0,0, 0, player.currentTime() * 1000)" class="tag is-info is-small is-warning" accesskey="t">{{ $t('Current Time') }}</b-button>
               <b-tooltip type="is-danger" :label="$t(disableSaveMsg())" position="is-right" :delay=250 :active="disableSaveButtons()">
                 <b-button v-if="currentCuepointId > 0" @click="updateCuepoint(true)" class="tag is-info is-small is-warning" accesskey="s"
                   :disabled="disableSaveButtons()" >
-                  <u>S</u>ave Edit
+                  {{ $t('Save Edit') }}
                 </b-button>
               </b-tooltip>
-                <b-button v-if="cuepointName!=''" @click='cuepointName=""' class="tag is-info is-small is-warning" >Clear Cuepoint Name</b-button>
-                <b-button v-if="tagAct!=''" @click='setCuepointName("")' class="tag is-info is-small is-warning" accesskey="c"><u>C</u>lear Action</b-button>
+                <b-button v-if="cuepointName!=''" @click='cuepointName=""' class="tag is-info is-small is-warning" >{{ $t('Clear Cuepoint Name') }}</b-button>
+                <b-button v-if="tagAct!=''" @click='setCuepointName("")' class="tag is-info is-small is-warning" accesskey="c">{{ $t('Clear Action') }}</b-button>
               </b-taglist>
             </div>
 
@@ -264,10 +264,10 @@
                         </div>
                       </div>
                       <div class="media-right">
-                        <button class="button is-dark is-small is-outlined" title="Unmatch file from scene" @click='unmatchFile(f)'>
+                        <button class="button is-dark is-small is-outlined" :title="$t('Unmatch file from scene')" @click='unmatchFile(f)'>
                           <b-icon pack="fas" icon="unlink" size="is-small"></b-icon>
                         </button>&nbsp;
-                        <button class="button is-danger is-small is-outlined" title="Delete file from disk" @click='removeFile(f)'>
+                        <button class="button is-danger is-small is-outlined" :title="$t('Delete file from disk')" @click='removeFile(f)'>
                           <b-icon pack="fas" icon="trash" size="is-small"></b-icon>
                         </button>
                       </div>
@@ -280,30 +280,30 @@
                     <div class="block" >
                       <div class="columns">
                         <div class="column is-2">
-                        <b-field label="Track" width="7.25em" label-position="on-border">
+                        <b-field :label="$t('Track')" width="7.25em" label-position="on-border">
                           <b-input v-model="track" width="7.25em"></b-input>
                         </b-field>
                         </div>
                         <div class="column">
-                        <b-field label="Name" label-position="on-border">
+                        <b-field :label="$t('Name')" label-position="on-border">
                           <b-autocomplete v-model="cuepointName" :data="filteredCuepointPositionList" :open-on-focus="true"></b-autocomplete>
                         </b-field>
                         </div>
                         <div class="column is-2">
-                        <b-field label="Start" label-position="on-border">
-                          <b-timepicker v-model="vidPosition" rounded editable placeholder="Defaults to player position" hour-format="24" :enable-seconds="true" :max-time="maxTime" :time-formatter="timeFormatter" :time-parser="timeParser" >
+                        <b-field :label="$t('Start')" label-position="on-border">
+                          <b-timepicker v-model="vidPosition" rounded editable :placeholder="$t('Defaults to player position')" hour-format="24" :enable-seconds="true" :max-time="maxTime" :time-formatter="timeFormatter" :time-parser="timeParser" >
                           <b-button
-                            label="Current Time"
+                            :label="$t('Current Time')"
                             type="is-primary"
                             @click="vidPosition = new Date(0,0,0,0,0, 0, player.currentTime() * 1000)" />
                           </b-timepicker>
                         </b-field>
                         </div>
                         <div class="column is-2">
-                          <b-field label="End" label-position="on-border">
-                          <b-timepicker v-model="endTime" rounded editable placeholder="Defaults to player position" hour-format="24" :enable-seconds="true" :max-time="maxTime" :time-formatter="timeFormatter" :time-parser="timeParser" >
+                          <b-field :label="$t('End')" label-position="on-border">
+                          <b-timepicker v-model="endTime" rounded editable :placeholder="$t('Defaults to player position')" hour-format="24" :enable-seconds="true" :max-time="maxTime" :time-formatter="timeFormatter" :time-parser="timeParser" >
                           <b-button
-                            label="Current Time"
+                            :label="$t('Current Time')"
                             type="is-primary"
                             @click="endTime = new Date(0,0,0,0,0, 0, player.currentTime() * 1000)" />
                           </b-timepicker>
@@ -316,16 +316,16 @@
                         <b-table :data="sortedCuepoints"  :narrowed=true :per-page=7 focusable striped sticky-header
                           @select="cuepointSelected">
                           <!-- paginated  pagination-position="top" :pagination-rounded=true pagination-size="is-small" -->
-                          <b-table-column field="track" label="Track" width="7.25em" v-slot="props" >
+                          <b-table-column field="track" :label="$t('Track')" width="7.25em" v-slot="props" >
                             {{ props.row.track ==null ? "" :  props.row.track }}
                           </b-table-column>
-                          <b-table-column field="name" label="Name" v-slot="props"  is-small>
+                          <b-table-column field="name" :label="$t('Name')" v-slot="props"  is-small>
                             {{ props.row.name }}
                           </b-table-column>
-                          <b-table-column field="time_start" label="Start" v-slot="props" width="6.5em"  >
+                          <b-table-column field="time_start" :label="$t('Start')" v-slot="props" width="6.5em"  >
                             {{ humanizeSeconds1DP(props.row.time_start) }}
                           </b-table-column>
-                          <b-table-column field="time_end" label="End" v-slot="props" width="6.5em"  >
+                          <b-table-column field="time_end" :label="$t('End')" v-slot="props" width="6.5em"  >
                             {{ props.row.time_end==null ? "" :  humanizeSeconds1DP(props.row.time_end) }}
                           </b-table-column>
                           <b-table-column field="rating" v-slot="props" width="7em"  >
@@ -335,7 +335,7 @@
                             </b-field>
                           </b-table-column>
                           <b-table-column v-slot="props" width="1em" >
-                            <button class="button is-danger is-outlined is-small" @click="deleteCuepoint(props.row.id)" title="Delete cuepoint">
+                            <button class="button is-danger is-outlined is-small" @click="deleteCuepoint(props.row.id)" :title="$t('Delete cuepoint')">
                               <b-icon pack="fas" icon="trash" />
                             </button>
                           </b-table-column>
@@ -344,10 +344,10 @@
                   </div>
                 </b-tab-item>
 
-                <b-tab-item label="Watch history" v-if="!displayingAlternateSource">
+                <b-tab-item :label="$t('Watch history')" v-if="!displayingAlternateSource">
                   <div class="block-tab-content block">
                     <div>
-                      {{ historySessionsCount }} view sessions, total duration
+                      {{ historySessionsCount }} {{ $t('view sessions, total duration') }}
                       {{ humanizeSeconds(historySessionsDuration) }}
                     </div>
                     <div class="content is-small">
@@ -359,14 +359,14 @@
                   </div>
                 </b-tab-item>
 
-                <b-tab-item label="Description">
+                <b-tab-item :label="$t('Description')">
                   <div class="block-tab-content block">
                     <b-message>
                       {{ item.synopsis }}
                     </b-message>
                   </div>
                 </b-tab-item>
-                <b-tab-item v-if="this.$store.state.optionsAdvanced.advanced.showSceneSearchField && !displayingAlternateSource" label="Search fields">
+                <b-tab-item v-if="this.$store.state.optionsAdvanced.advanced.showSceneSearchField && !displayingAlternateSource" :label="$t('Search fields')">
                   <div class="block-tab-content block">
                     <div class="content is-small">
                       <div class="block" v-for="(field, idx) in searchfields" :key="idx">
@@ -390,11 +390,11 @@
         </a>
       </div>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="close()"></button>
+    <button class="modal-close is-large" :aria-label="$t('close')" @click="close()"></button>
     <a class="prev" @click="prevScene" v-if="$store.getters['sceneList/prevScene'](item) !== null && !displayingAlternateSource"
-       title="Keyboard shortcut: O">&#10094;</a>
+       :title="$t('Keyboard shortcut: O')">&#10094;</a>
     <a class="next" @click="nextScene" v-if="$store.getters['sceneList/nextScene'](item) !== null && !displayingAlternateSource"
-       title="Keyboard shortcut: P">&#10095;</a>
+       :title="$t('Keyboard shortcut: P')">&#10095;</a>
   </div>
 </template>
 
@@ -583,11 +583,11 @@ export default {
           }
         });
         return this.alternateSources.length;
-      } catch (error) {        
+      } catch (error) {
         return 0; // Return 0 or handle error as needed
       }
     },
-    changeDetailsTab() {      
+    changeDetailsTab() {
       return this.$store.state.overlay.changeDetailsTab
     },
     quickFindOverlayState() {
@@ -601,7 +601,7 @@ export default {
         const extdata = JSON.parse(altsrc.external_data);
         return {
           ...altsrc,
-          title: extdata.scene?.title || 'No Title'
+          title: extdata.scene?.title || this.$t("No Title")
         };
       });
     }
@@ -615,7 +615,7 @@ export default {
       this.cuepointPositionTags = data.positions
       this.cuepointActTags.unshift("")
       this.cuepointPositionTags.unshift("")
-      })    
+      })
 },
 watch:{
   quickFindOverlayState(newVal, oldVal){
@@ -626,8 +626,8 @@ watch:{
       this.waitingForQuickFind = false
       if (this.$store.state.overlay.quickFind.selectedScene != null && this.$store.state.overlay.quickFind.selectedScene.id > 0) {
         this.$buefy.dialog.confirm({
-          title: 'Relink scene',
-          message: `Do you wish to link this scene to <strong>${this.$store.state.overlay.quickFind.selectedScene.title}</strong>`,
+          title: this.$t("Relink scene"),
+          message: this.$t("Do you wish to link this scene to <strong>{value0}</strong>", { value0: this.$store.state.overlay.quickFind.selectedScene.title }),
           type: 'is-info is-wide',
           hasIcon: true,
           id: 'heh',
@@ -749,7 +749,7 @@ watch:{
     },
     getCastScenesUrl(actor) {
       let newfilters = Object.assign({}, this.$store.state.sceneList.filters);
-      newfilters.cast = actor;       
+      newfilters.cast = actor;
       newfilters.sites = []
       newfilters.tags = []
       newfilters.attributes = []
@@ -770,9 +770,9 @@ watch:{
       this.close()
     },
     getTagScenesUrl(tag) {
-      let newfilters = Object.assign({}, this.$store.state.sceneList.filters);      
-      newfilters.tags = tag;       
-      newfilters.cast = []       
+      let newfilters = Object.assign({}, this.$store.state.sceneList.filters);
+      newfilters.tags = tag;
+      newfilters.cast = []
       newfilters.sites = []
       newfilters.attributes = []
       return this.$router.resolve({
@@ -793,8 +793,8 @@ watch:{
     },
     getSiteScenesUrl(site) {
       let newfilters = Object.assign({}, this.$store.state.sceneList.filters);
-      newfilters.sites = site;       
-      newfilters.cast = []       
+      newfilters.sites = site;
+      newfilters.cast = []
       newfilters.tags = []
       newfilters.attributes = []
       return this.$router.resolve({
@@ -822,8 +822,8 @@ watch:{
     },
     unmatchFile (file) {
       this.$buefy.dialog.confirm({
-        title: 'Unmatch file',
-        message: `You're about to unmatch the file <strong>${file.filename}</strong> from this scene. Afterwards, it can be matched again to this or any other scene.`,
+        title: this.$t("Unmatch file"),
+        message: this.$t("You're about to unmatch the file <strong>{value0}</strong> from this scene. Afterwards, it can be matched again to this or any other scene.", { value0: file.filename }),
         type: 'is-info is-wide',
         hasIcon: true,
         id: 'heh',
@@ -836,8 +836,8 @@ watch:{
     },
     removeFile (file) {
       this.$buefy.dialog.confirm({
-        title: 'Remove file',
-        message: `You're about to remove file <strong>${file.filename}</strong> from <strong>disk</strong>.`,
+        title: this.$t("Remove file"),
+        message: this.$t("You're about to remove file <strong>{value0}</strong> from <strong>disk</strong>.", { value0: file.filename }),
         type: 'is-danger',
         hasIcon: true,
         onConfirm: () => {
@@ -866,7 +866,7 @@ watch:{
             return '/img/' + size + '/' + encodeURI(u)
           } else {
             return '/img/' + size + '/' + encodeURI(decodeURI(u))
-          } 
+          }
           return u
         }
       } catch {
@@ -1076,7 +1076,7 @@ watch:{
       return false
     },
     disableSaveMsg() {
-      if (this.track!=null && this.track!="" && (isNaN(this.endTime) || this.endTime==null)) return "Specify a End Time"
+      if (this.track!=null && this.track!="" && (isNaN(this.endTime) || this.endTime==null)) return this.$t("Specify a End Time")
       if ((this.track==null || this.track==="") && !isNaN(this.endTime) && this.endTime!=null) return "End Time is only valid for HSP Cuepoints"
       return ""
     },
@@ -1097,7 +1097,7 @@ watch:{
     },
     getSearchFields(id) {
       // load search fields
-      this.searchfields = []      
+      this.searchfields = []
       if (this.$store.state.optionsAdvanced.advanced.showSceneSearchField && !this.displayingAlternateSource) {
         ky.get('/api/scene/searchfields', {
           searchParams: {
@@ -1108,21 +1108,21 @@ watch:{
           })
       }
     },
-    showExtRefScene (altsrc) {      
-      const extdata = JSON.parse(altsrc.external_data);      
-      if (extdata.scene.cast == null) 
+    showExtRefScene (altsrc) {
+      const extdata = JSON.parse(altsrc.external_data);
+      if (extdata.scene.cast == null)
       {
         extdata.scene.cast = []
       }
       this.$store.commit('overlay/showDetails', { scene: extdata.scene, altsrc: altsrc, prevscene: this.item, query_for_altsrc: extdata.query })
-      this.activeTab = 0      
+      this.activeTab = 0
     },
     searchAlternateSourceScene() {
       // search for a new scene to link to the alternate source scene
-      const  q = this.$store.state.overlay.details.query_for_altsrc == "" ? this.item.title : this.$store.state.overlay.details.query_for_altsrc      
+      const  q = this.$store.state.overlay.details.query_for_altsrc == "" ? this.item.title : this.$store.state.overlay.details.query_for_altsrc
       this.$store.commit('overlay/showQuickFind', { searchString:  q, displaySelectedScene: false })
       this.waitingForQuickFind = true
-    }, 
+    },
     async handleRelinkExtRef() {
       const response = await ky.post(`/api/extref/edit_link`, {
         json: {
@@ -1136,13 +1136,13 @@ watch:{
       });
       if (response.status === 200) {
         this.$store.state.overlay.details.prevscene = this.$store.state.overlay.quickFind.selectedScene;
-        this.$buefy.toast.open({ message: `The scene was sucessfully relinked to a new Scene`, type: 'is-primary', duration: 3000 });
+        this.$buefy.toast.open({ message: this.$t("The scene was sucessfully relinked to a new Scene"), type: 'is-primary', duration: 3000 });
       }
     },
     async scrapeScene() {
       this.$buefy.dialog.confirm({
-        title: 'Scrape & Create Scene',
-        message: `Do you wish to create a seperate XBVR scene from this linked scene <strong>${this.$store.state.overlay.details.altsrc.url}</strong>`,
+        title: this.$t("Scrape & Create Scene"),
+        message: this.$t("Do you wish to create a seperate XBVR scene from this linked scene <strong>{value0}</strong>", { value0: this.$store.state.overlay.details.altsrc.url }),
         type: 'is-info is-wide',
         hasIcon: true,
         id: 'heh',
@@ -1150,7 +1150,7 @@ watch:{
           const url = this.$store.state.overlay.details.altsrc.url
           this.$store.state.overlay.details.altsrc = null
           this.$store.commit('overlay/hideDetails')
-          // call the options screen passing the url in state   
+          // call the options screen passing the url in state
           this.$store.commit('optionsSceneCreate/setScrapeScene', url )
           this.$store.commit('optionsSceneCreate/showSceneCreate', true )
           this.$router.push({ path: '/options'})
@@ -1160,12 +1160,12 @@ watch:{
     },
     async refreshExtRef() {
       this.$buefy.dialog.confirm({
-        title: 'Continue?',
-        message: `This will remove the scene, rescrape the site to relink it to an XBVR scene`,
+        title: this.$t("Continue?"),
+        message: this.$t("This will remove the scene, rescrape the site to relink it to an XBVR scene"),
         type: 'is-info is-wide',
         hasIcon: true,
         id: 'heh',
-        onConfirm: () => {          
+        onConfirm: () => {
           this.handleRefreshExtRef()
         }
       })
@@ -1179,22 +1179,22 @@ watch:{
       });
       if (response.status === 200) {
         this.$store.state.overlay.details.prevscene = this.$store.state.overlay.quickFind.selectedScene;
-        this.$buefy.toast.open({ message: `The scene was removed, ready to rescan`, type: 'is-primary', duration: 3000 });
+        this.$buefy.toast.open({ message: this.$t("The scene was removed, ready to rescan"), type: 'is-primary', duration: 3000 });
       }
     },
     flagExtRefDeleted() {
       let confirmed = false
       this.$buefy.dialog.confirm({
-        title: 'Continue?',
-        message: `This will unlink the scene and prevent it from relinking to any scene. This cannot be undone`,
+        title: this.$t("Continue?"),
+        message: this.$t("This will unlink the scene and prevent it from relinking to any scene. This cannot be undone"),
         type: 'is-danger is-wide',
         hasIcon: true,
         id: 'heh',
-        onConfirm: () => {          
+        onConfirm: () => {
           this.handleFlagExtRefDeleted()
         },
-      })    
-    },    
+      })
+    },
     async handleFlagExtRefDeleted() {
       const response = await ky.post(`/api/extref/edit_link`, {
         json: {
@@ -1208,9 +1208,9 @@ watch:{
       });
       if (response.status === 200) {
         this.$store.state.overlay.details.prevscene = this.$store.state.overlay.quickFind.selectedScene;
-        this.$buefy.toast.open({ message: `The scene was unlinked and will not be relinked to any scene`, type: 'is-primary', duration: 3000 });
+        this.$buefy.toast.open({ message: this.$t("The scene was unlinked and will not be relinked to any scene"), type: 'is-primary', duration: 3000 });
       }
-    },    
+    },
     format,
     parseISO,
     prettyBytes,
@@ -1381,5 +1381,5 @@ span.is-active img {
 }
 .altsrc-image-wrapper {
   display: inline-block;
-  margin-left: 5px;  
+  margin-left: 5px;
 }</style>

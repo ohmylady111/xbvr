@@ -109,7 +109,7 @@
       </b-table-column>
       <b-table-column field="master_site_id" :label="$t('Main Site')" v-slot="props" width="60" sortable>
         <span>
-          <a @click="editMatchParams(props.row)" title="Edit Scene Matching Parameters" v-if="props.row.master_site_id != ''"> 
+          <a @click="editMatchParams(props.row)" :title="$t('Edit Scene Matching Parameters')" v-if="props.row.master_site_id != ''">
             <b-icon pack="mdi" icon="cog-outline" size="is-small"/>
           </a>
           {{getMasterSiteName(props.row.master_site_id)}}
@@ -136,13 +136,13 @@
         </header>
         <section class="modal-card-body">
           <b-field v-if="additionalInfoIdx == 0 && this.scraperwarning != ''"><span>{{this.scraperwarning}}</span></b-field>
-          <b-field v-if="additionalInfoIdx == 0 && this.scraperwarning2 != ''"><span>{{this.scraperwarning2}}</span></b-field>          
+          <b-field v-if="additionalInfoIdx == 0 && this.scraperwarning2 != ''"><span>{{this.scraperwarning2}}</span></b-field>
           <b-field :label=this.additionalInfo[additionalInfoIdx].fieldPrompt>
             <b-input v-if="additionalInfo[additionalInfoIdx].type != 'checkbox'"
               :type=additionalInfo[additionalInfoIdx].type
               v-model='additionalInfo[additionalInfoIdx].fieldValue'
               :required=additionalInfo[additionalInfoIdx].required
-              :placeholder=additionalInfo[additionalInfoIdx].placeholder                            
+              :placeholder=additionalInfo[additionalInfoIdx].placeholder
               ref="additionInfoInput"
               >
             </b-input>
@@ -150,7 +150,7 @@
           </b-field>
         </section>
         <footer class="modal-card-foot">
-          <button class="button is-primary" :disabled="this.additionalInfo[additionalInfoIdx].required && this.additionalInfo[additionalInfoIdx].fieldValue == ''" @click="taskScrapeSceneInfoEntered()">Continue
+          <button class="button is-primary" :disabled="this.additionalInfo[additionalInfoIdx].required && this.additionalInfo[additionalInfoIdx].fieldValue == ''" @click="taskScrapeSceneInfoEntered()">{{ $t('Continue') }}
           </button>
         </footer>
       </div>
@@ -175,7 +175,7 @@ export default {
       isLoading: false,
       sceneUrl: '',
       isSingleScrapeModalActive: false,
-      additionalInfo: [{fieldName: "scene_url", fieldPrompt: "Scene Url", placeholder: "eg https://www.mysite.com/scenes/my scene", fieldValue: '', required: true, type: 'url' }],
+      additionalInfo: [{fieldName: "scene_url", fieldPrompt: this.$t("Scene Url"), placeholder: this.$t("eg https://www.mysite.com/scenes/my scene"), fieldValue: '', required: true, type: 'url' }],
       additionalInfoIdx: 0,
       currentScraper: '',
       scraperwarning: '',
@@ -200,9 +200,9 @@ export default {
       ky.get(`/api/task/scrape?site=${scraper}`)
     },
     taskScrapeScene (scraper) {
-      this.currentScraper=scraper      
-      this.additionalInfo = [{fieldName: "scene_url", fieldPrompt: "Scene Url", placeholder: "Enter the url for a VR Scene", fieldValue: '', required: true, type: 'url'}]      
-      this.scraperwarning = "Take care to only use scene urls for the " + scraper + " Scraper"
+      this.currentScraper=scraper
+      this.additionalInfo = [{fieldName: "scene_url", fieldPrompt: this.$t("Scene Url"), placeholder: this.$t("Enter the url for a VR Scene"), fieldValue: '', required: true, type: 'url'}]
+      this.scraperwarning = this.$t('Take care to only use scene urls for the {scraper} Scraper', { scraper })
       this.scraperwarning2 = ""
       switch (scraper) {
         case 'wankzvr':
@@ -210,7 +210,7 @@ export default {
         case 'herpovr':
         case  'brasilvr':
         case 'tranzvr':
-          this.scraperwarning = "Only use povr.com urls for the " + scraper + " Scraper"
+          this.scraperwarning = this.$t('Only use povr.com urls for the {scraper} Scraper', { scraper })
           break
         case 'tonightsgirlfriend':
           this.scraperwarning2 = "Warning " + scraper + " also includes 2d scenes, only select scenes from their VR section"
@@ -219,9 +219,9 @@ export default {
           break
     }
       this.additionalInfoIdx=0
-      this.isSingleScrapeModalActive = true      
+      this.isSingleScrapeModalActive = true
     },
-    taskScrapeSceneInfoEntered () {      
+    taskScrapeSceneInfoEntered () {
       const inputElement = this.$refs.additionInfoInput
       if (!inputElement.isValid) {
         // get the field again
@@ -229,53 +229,53 @@ export default {
         return
       }
 
-      this.isSingleScrapeModalActive = false      
+      this.isSingleScrapeModalActive = false
       var fieldCheckMsg = ""
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('fuckpassvr.com')) {
-        var fieldCheckMsg="Note: Video Previews are not available when scraping single scenes from FuckpassVR"
+        var fieldCheckMsg=this.$t("Note: Video Previews are not available when scraping single scenes from FuckpassVR")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('lethalhardcorevr.com')) {
-        var fieldCheckMsg=`Please check the Site if the scene was for WhorecraftVR. Please check the Release Date`
+        var fieldCheckMsg=this.$t("Please check the Site if the scene was for WhorecraftVR. Please check the Release Date")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('littlecaprice-dreams.com')) {
-        var fieldCheckMsg=`Please specify a URL for the cover image`
+        var fieldCheckMsg=this.$t("Please specify a URL for the cover image")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('sexbabesvr.com')) {
-        var fieldCheckMsg="Please check the Release Date"
+        var fieldCheckMsg=this.$t("Please check the Release Date")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('stasyqvr.com')) {
-        var fieldCheckMsg=`Please specify a Duration if required`
+        var fieldCheckMsg=this.$t("Please specify a Duration if required")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('tonightsgirlfriend.com')) {
-        var fieldCheckMsg="Please check the Release Date"
+        var fieldCheckMsg=this.$t("Please check the Release Date")
       }
       if (this.additionalInfo[0].fieldValue.toLowerCase().includes('virtualporn.com')) {
-        var fieldCheckMsg=`Please check the Release Date and specify a Duration if required`
+        var fieldCheckMsg=this.$t("Please check the Release Date and specify a Duration if required")
       }
-      if (this.additionalInfo[0].fieldValue.toLowerCase().includes('wetvr.com')) {        
-        var fieldCheckMsg="Please check the Release Date"
+      if (this.additionalInfo[0].fieldValue.toLowerCase().includes('wetvr.com')) {
+        var fieldCheckMsg=this.$t("Please check the Release Date")
       }
 
       if (this.additionalInfoIdx == 0) {
         if (this.additionalInfo[0].fieldValue.toLowerCase().includes('wetvr.com')) {
-          this.additionalInfo.push({fieldName: "scene_id", fieldPrompt: "Scene Id", placeholder: "eg 69037 (excl site prefix)", fieldValue: '', required: true, type: 'number'})
+          this.additionalInfo.push({fieldName: "scene_id", fieldPrompt: this.$t("Scene Id"), placeholder: this.$t("eg 69037 (excl site prefix)"), fieldValue: '', required: true, type: 'number'})
         }
       }
-      
+
       this.additionalInfo[this.additionalInfoIdx].fieldValue = this.additionalInfo[this.additionalInfoIdx].fieldValue.trim()
-      if (this.additionalInfoIdx + 1 < this.additionalInfo.length) {          
+      if (this.additionalInfoIdx + 1 < this.additionalInfo.length) {
         this.additionalInfoIdx = this.additionalInfoIdx +1
-        this.isSingleScrapeModalActive = true      
+        this.isSingleScrapeModalActive = true
       } else {
         if (fieldCheckMsg != "") {
-          this.$buefy.toast.open({message: `Scene scraping in progress, please wait for the Scene Detail popup`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Scene scraping in progress, please wait for the Scene Detail popup"), type: 'is-warning', duration: 5000})
         } else {
-          this.$buefy.toast.open({message: `Scene scraping in progress`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Scene scraping in progress"), type: 'is-warning', duration: 5000})
         }
         ky.post(`/api/task/singlescrape`, {timeout: false, json: { site: this.currentScraper, sceneurl: this.additionalInfo[0].fieldValue, additionalinfo: this.additionalInfo.slice(1)}})
         .json()
-        .then(data => { 
-          if (data.status == 'OK') {          
+        .then(data => {
+          if (data.status == 'OK') {
             this.$store.commit('overlay/editDetails', { scene: data.scene })
             if (fieldCheckMsg != "") {
               this.$buefy.toast.open({message: fieldCheckMsg, type: 'is-warning', duration: 10000})
@@ -288,13 +288,13 @@ export default {
       ky.post('/api/options/scraper/force-site-update', {
         json: { scraper_id: scraper }
       })
-      this.$buefy.toast.open(`Scenes from ${site} will be updated on next scrape`)
+      this.$buefy.toast.open(this.$t("Scenes from {value0} will be updated on next scrape", { value0: site }))
     },
     deleteScenes (site) {
       const self = this
       this.$buefy.dialog.confirm({
         title: this.$t('Delete scraped scenes'),
-        message: `You're about to delete scraped scenes for <strong>${site.name}</strong>.`,
+        message: this.$t("You're about to delete scraped scenes for <strong>{value0}</strong>.", { value0: site.name }),
         type: 'is-danger',
         hasIcon: true,
         onConfirm: function () {
@@ -318,11 +318,11 @@ export default {
     removeSceneLinks (site, all) {
       this.$buefy.dialog.confirm({
         title: this.$t('Remove Scene Links'),
-        message: `You're about to remove links for scenes from <strong>${site.name}</strong>. Scenes will be relinked after the next scrape.`,
+        message: this.$t("You're about to remove links for scenes from <strong>{value0}</strong>. Scenes will be relinked after the next scrape.", { value0: site.name }),
         type: 'is-warning',
         hasIcon: true,
         onConfirm: function () {
-          const external_source = 'alternate scene ' + site.id          
+          const external_source = 'alternate scene ' + site.id
           if (all) {
             ky.delete(`/api/extref/delete_extref_source_links/all`, {
               json: {external_source: external_source}
@@ -335,9 +335,9 @@ export default {
         }
       })
     },
-    scrapeActors(site, scraper) {      
+    scrapeActors(site, scraper) {
       ky.get('/api/extref/generic/scrape_by_site/' + scraper)
-      this.$buefy.toast.open(`Scraping Actor Details from ${site}`)
+      this.$buefy.toast.open(this.$t("Scraping Actor Details from {value0}", { value0: site }))
     },
     async toggleAllSubscriptions(){
       const table = this.$refs.scraperTable;
@@ -356,7 +356,7 @@ export default {
         this.$store.dispatch('optionsSites/load')
       }
       this.isLoading=false
-    },    
+    },
     editMatchParams(site){
       this.$store.commit('overlay/showSceneMatchParams', { site: site })
     },

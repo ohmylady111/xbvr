@@ -23,7 +23,7 @@
         }}
       </p>
       <hr />
-      <p><strong>Download funscripts for DeoVR</strong></p>
+      <p><strong>{{ $t('Download funscripts for DeoVR') }}</strong></p>
       <p>
         <b-button
           type="is-primary"
@@ -47,11 +47,11 @@
       <hr />
       <b-field>
         <b-switch v-model="scrapeFunscripts" type="is-default">
-          <strong>Scrape for Available Funscripts</strong>
+          <strong>{{ $t('Scrape for Available Funscripts') }}</strong>
         </b-switch>
       </b-field>
       <b-field>
-        <b-button type="is-primary" @click="save">Save</b-button>
+        <b-button type="is-primary" @click="save">{{ $t('Save') }}</b-button>
       </b-field>
     </div>
   </div>

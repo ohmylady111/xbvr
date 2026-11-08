@@ -38,7 +38,7 @@
             </b-tag>
             <b-tag type="is-info" v-if="item.duration > 0 && this.$store.state.optionsWeb.web.sceneDuration">
               <b-icon pack="mdi" icon="clock" size="is-small"/>
-              {{item.duration}}m
+              {{item.duration}}{{ $t('m') }}
             </b-tag>
           </div>
           <div v-if="this.$store.state.optionsWeb.web.showScriptHeatmap && (files = getFunscripts(this.$store.state.optionsWeb.web.showAllHeatmaps))" style="padding: 0px 5px 5px">
@@ -63,7 +63,7 @@
       <link-stashdb-button :item="item" v-if="!this.stashLinkExists" objectType="scene"/>
 
       <span class="is-pulled-right" style="font-size:11px;text-align:right;">
-        <a v-if="item.members_url != ''" :href="item.members_url" target="_blank" title="Members Link" rel="noreferrer"><b-icon pack="mdi" icon="link-lock" custom-size="mdi-18px" style="height:0.7rem"/></a>
+        <a v-if="item.members_url != ''" :href="item.members_url" target="_blank" :title="$t('Members Link')" rel="noreferrer"><b-icon pack="mdi" icon="link-lock" custom-size="mdi-18px" style="height:0.7rem"/></a>
         <a :href="item.scene_url" :class="{'has-text-white has-background-primary-dark': item.is_subscribed }" target="_blank" rel="noreferrer" style="padding:2px">{{item.site}}</a><br/>
         <span v-if="item.release_date !== '0001-01-01T00:00:00Z'">
           {{format(parseISO(item.release_date), "yyyy-MM-dd")}}
@@ -74,7 +74,7 @@
           <b-tooltip type="is-light" :label="altsrc.title" :delay="100">
             <a :href="altsrc.url" target="_blank">
               <vue-load-image>
-                <img slot="image" :src="getImageURL(altsrc.site_icon)" alt="Image" class="thumbnail" width="20" />
+                <img slot="image" :src="getImageURL(altsrc.site_icon)" :alt="$t('Image')" class="thumbnail" width="20" />
                 <b-icon slot="error" pack="mdi" icon="link" size="is-small" />
               </vue-load-image>
             </a>
@@ -189,9 +189,9 @@ export default {
             const extdata = JSON.parse(altsrc.external_data);
             let title;
             if (altsrc.external_source.startsWith("alternate scene ")) {
-              title = extdata.scene?.title || 'No Title';
+              title = extdata.scene?.title || this.$t("No Title");
             } else if (altsrc.external_source == "stashdb scene") {
-              title = extdata.title || 'No Title';
+              title = extdata.title || this.$t("No Title");
             }
             if (altsrc.external_source.includes('stashdb')) {
               this.stashLinkExists = true

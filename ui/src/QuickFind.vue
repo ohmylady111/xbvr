@@ -28,7 +28,7 @@
       <b-autocomplete
         ref="autocompleteInput"
         :data="data"
-        placeholder="Find scene..."
+        :placeholder="$t('Find scene...')"
         field="query"
         :loading="isFetching"
         v-model="queryString"

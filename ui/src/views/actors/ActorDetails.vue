@@ -98,7 +98,7 @@
                 </div>
               </div>
             </div>
-                        
+
             <div class="block-opts block">
               <b-tabs v-model="activeTab" :animated="false">
                 <b-tab-item :label="$t('Details')">
@@ -154,8 +154,8 @@
                     </b-message>
                 </b-tab-item>
                 <b-tab-item>
-                  <template #header>                    
-                    Scenes ({{ actor.scenes.length }}) <a v-if="showOpenInNewWindow" :href='getCastScenesUrl([actor.name])' target="_blank" style="padding-left: 0.1em; border-bottom-style: none;"><b-icon pack="mdi" icon="open-in-new" size="is-small" style="background-color: hsl(0, 0%, 100%);"></b-icon></a>
+                  <template #header>
+                    {{ $t('Scenes (') }}{{ actor.scenes.length }}) <a v-if="showOpenInNewWindow" :href='getCastScenesUrl([actor.name])' target="_blank" style="padding-left: 0.1em; border-bottom-style: none;"><b-icon pack="mdi" icon="open-in-new" size="is-small" style="background-color: hsl(0, 0%, 100%);"></b-icon></a>
                   </template>
                   <div v-show="activeTab == 1" :class="['columns', 'is-multiline', actor.scenes.length > 6 ? 'scroll' : '']">
                     <div :class="['column', 'is-multiline', 'is-one-third']"
@@ -201,7 +201,7 @@
                       </div>
                     </b-field>
                   </div>
-                </b-tab-item>                
+                </b-tab-item>
                 <b-tab-item :visible="colleagues.length != 0" :label="`Colleagues (${colleagues.length})`">
                   <div v-show="activeTab == 3" class="columns is-multiline scroll">
                     <div :class="['column', 'is-multiline', 'is-one-third']"
@@ -212,13 +212,13 @@
                 </b-tab-item>
                 <b-tab-item :label="`Links (${getActorUrls().length})`" v-show="getActorUrls().length !=0">
                   <div v-show="activeTab == 4">
-                    <div >                    
+                    <div >
                       <b-field :label="$t('Links')" >
-                        <div >                       
-                          <div 
+                        <div >
+                          <div
                             v-for="(urllink, idx) in getActorUrls()" :key="idx">
-                            <a class="tag is-info" :href="urllink.url" target="_blank" rel="noreferrer" style="margin-bottom: .5em;">{{urllink.url}}</a>                            
-                          </div>                        
+                            <a class="tag is-info" :href="urllink.url" target="_blank" rel="noreferrer" style="margin-bottom: .5em;">{{urllink.url}}</a>
+                          </div>
                         </div>
                       </b-field>
                     </div>
@@ -226,17 +226,17 @@
                 </b-tab-item>
                 <b-tab-item  :label="`Scrapers (${extrefs.length})`" v-show="extrefs.length !=0">
                   <div v-show="activeTab == 5">
-                    <div >                    
+                    <div >
                       <b-field :label="$t('Actor Scrapers')" >
-                        <div >                       
+                        <div >
                           <div v-for="(extref, idx) in extrefs" :key="idx">
                             <b-field grouped>
                               <a @click="refreshScraper(extref.external_reference.external_url)" :title="'Rescrape Actor Details now'">
                                 <b-icon pack="mdi" icon="refresh" size="is-small" style="margin-right: 1em;"/>
                               </a>
-                            <a class="tag is-info" :href="extref.external_reference.external_url" target="_blank" rel="noreferrer" style="margin-bottom: .5em;">{{extref.external_source}} - Updated: {{format(parseISO(extref.external_reference.external_date), "yyyy-MM-dd") }}</a>                            
+                            <a class="tag is-info" :href="extref.external_reference.external_url" target="_blank" rel="noreferrer" style="margin-bottom: .5em;">{{extref.external_source}} {{ $t('- Updated:') }} {{format(parseISO(extref.external_reference.external_date), "yyyy-MM-dd") }}</a>
                             </b-field>
-                          </div>                        
+                          </div>
                         </div>
                       </b-field>
                     </div>
@@ -249,11 +249,11 @@
         </div>
       </section>
     </div>
-    <button class="modal-close is-large" aria-label="close" @click="close()"></button>
+    <button class="modal-close is-large" :aria-label="$t('close')" @click="close()"></button>
     <a class="prev" @click="prevActor"
-       title="Keyboard shortcut: O">&#10094;</a>
+       :title="$t('Keyboard shortcut: O')">&#10094;</a>
     <a class="next" @click="nextActor"
-       title="Keyboard shortcut: P">&#10095;</a>
+       :title="$t('Keyboard shortcut: P')">&#10095;</a>
   </div>
 </template>
 
@@ -289,22 +289,22 @@ export default {
     }
   },
   computed: {
-    actor () {      
+    actor () {
       const actor = this.$store.state.overlay.actordetails.actor
       ky.get(`/api/actor/akas/${actor.id}`)
       .json()
-      .then(list => {          
+      .then(list => {
         this.akas = list
       })
       ky.get(`/api/actor/colleagues/${actor.id}`)
       .json()
-      .then(list => {          
+      .then(list => {
         this.colleagues = list
       })
       ky.get(`/api/actor/extrefs/${actor.id}`)
       .json()
-      .then(list => {          
-        this.extrefs = list          
+      .then(list => {
+        this.extrefs = list
       })
       return actor
     },
@@ -312,8 +312,8 @@ export default {
     images () {
       if (this.actor.image_arr==undefined || this.actor.image_arr=="") {
         return []
-      }      
-      return JSON.parse(this.actor.image_arr).filter(im => im != "")      
+      }
+      return JSON.parse(this.actor.image_arr).filter(im => im != "")
     },
     showEdit () {
       return this.$store.state.overlay.actoredit.show
@@ -322,7 +322,7 @@ export default {
       return this.$store.state.optionsWeb.web.showOpenInNewWindow
     },
   },
-  mounted () {    
+  mounted () {
       ky.get('/api/actor/countrylist')
         .json()
         .then(list => {
@@ -331,9 +331,9 @@ export default {
   },
   watch: {
     // when a file is selected, then this will fire the upload process
-    activeTab: function (newval, oldval) {      
+    activeTab: function (newval, oldval) {
       }
-    },  
+    },
     methods: {
     getImageURL (u, size) {
       if (u.startsWith('http') || u.startsWith('https')) {
@@ -342,29 +342,29 @@ export default {
         return u
       }
     },
-    getIndicatorURL (idx) {      
+    getIndicatorURL (idx) {
       if (this.images[idx] !== undefined) {
         return this.getImageURL(this.images[idx], 'x85')
       } else {
         return '/ui/images/blank_female_profile.png'
       }
     },
-    close () {      
+    close () {
       this.$store.commit('overlay/hideActorDetails')
     },
     setRating (val) {
       ky.post(`/api/actor/rate/${this.actor.id}`, { json: { rating: val } })
       const updatedActor = Object.assign({}, this.actor)
       updatedActor.star_rating = val
-      this.actor.star_rating = val      
+      this.actor.star_rating = val
       this.$store.commit('actorList/updateActor', updatedActor)
     },
-    async nextActor () {      
+    async nextActor () {
       const data = this.$store.getters['actorList/nextActor'](this.actor)
       if (data !== null) {
         this.$store.commit('overlay/showActorDetails', { actor: data })
         this.activeMedia = 0
-        this.carouselSlide = 0        
+        this.carouselSlide = 0
       } else {
         // no actor, get the next page (note offset already points to it)
         let newoffset = this.$store.state.actorList.offset
@@ -387,7 +387,7 @@ export default {
       if (data !== null) {
         this.$store.commit('overlay/showActorDetails', { actor: data })
         this.activeMedia = 0
-        this.carouselSlide = 0        
+        this.carouselSlide = 0
       } else {
         // no actor, get the previous page
         let newoffset = this.$store.state.actorList.offset - (this.$store.state.actorList.limit * 2)
@@ -403,8 +403,8 @@ export default {
           this.carouselSlide = 0
         }
       }
-    },    
-    handleLeftArrow () {      
+    },
+    handleLeftArrow () {
         this.carouselSlide = this.carouselSlide - 1
     },
     handleRightArrow () {
@@ -419,26 +419,26 @@ export default {
         behavior: 'smooth'
       })
     },
-    calcAge(birthdate){       
+    calcAge(birthdate){
       const birthdateObj = new Date(birthdate);
       const now = new Date();
       const diffInMs = now - birthdateObj;
       const msPerYear = 1000 * 60 * 60 * 24 * 365.25; // average milliseconds per year, accounting for leap years
-      const age = Math.floor(diffInMs / msPerYear);      
+      const age = Math.floor(diffInMs / msPerYear);
       return age
     },
-    getYearsActive(){      
+    getYearsActive(){
       let active = ""
       if (this.actor.start_year > 0) {
-        active = this.actor.start_year 
-      }      
-      active +=  "-"      
+        active = this.actor.start_year
+      }
+      active +=  "-"
       if (this.actor.end_year > 0) {
-        active += this.actor.end_year 
+        active += this.actor.end_year
       }
       return active
     },
-    measurements(){      
+    measurements(){
       let metric_measurements=""
       let imperial_measurements=""
       if (this.actor.band_size != 0) {
@@ -446,8 +446,8 @@ export default {
         imperial_measurements=Math.round(this.actor.band_size / 2.54)
       }
       if (this.actor.cup_size != ''){
-        metric_measurements +=  this.actor.cup_size        
-        imperial_measurements += this.actor.cup_size        
+        metric_measurements +=  this.actor.cup_size
+        imperial_measurements += this.actor.cup_size
       }
       if (this.actor.waist_size != 0) {
         if (metric_measurements!='') {
@@ -464,7 +464,7 @@ export default {
         }
         metric_measurements += this.actor.hip_size
         imperial_measurements += Math.round(this.actor.hip_size / 2.54)
-      } 
+      }
       if (metric_measurements==''){
         return ''
       }
@@ -472,18 +472,18 @@ export default {
     },
     joinArray(jsonArr){
       const arr = JSON.parse(jsonArr);
-      return  arr.join(", ");       
+      return  arr.join(", ");
     },
     setActorImage (val) {
       ky.post('/api/actor/setimage', {
       json: {
         actor_id: this.actor.id,
         url: this.images[this.carouselSlide]
-      }}).json().then(data => {        
+      }}).json().then(data => {
         this.$store.state.overlay.actordetails.actor = data
         this.carouselSlide=0
         this.$store.dispatch('actorList/load', { offset: this.$store.state.actorList.offset - this.$store.state.actorList.limit })
-      })    
+      })
     },
     deleteActorImage (val) {
       ky.delete('/api/actor/delimage', {
@@ -492,7 +492,7 @@ export default {
         url: this.images[this.carouselSlide]
       }}).json().then(data => {
         this.$store.state.overlay.actordetails.actor = data
-      })    
+      })
     },
     getCountryName(countryCode){
       const country = this.countries.find(c => c.code === countryCode)
@@ -520,8 +520,8 @@ export default {
       if (this.actor.urls=="")
       {
         return []
-      }      
-      let array = JSON.parse(this.actor.urls)      
+      }
+      let array = JSON.parse(this.actor.urls)
       return array
     },
     createAkaGroup () {
@@ -532,12 +532,12 @@ export default {
       }
       ky.post('/api/aka/create', {json: {actorList: actorlist}}).json().then(data => {
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         ky.get('/api/actor/'+this.actor.id).json().then(data => {
           if (data.id != 0){
-            this.$store.state.overlay.actordetails.actor = data          
-          }          
+            this.$store.state.overlay.actordetails.actor = data
+          }
         })
         this.$store.state.actorList.isLoading = false
         this.$store.dispatch('actorList/load', { offset: this.$store.state.actorList.offset - this.$store.state.actorList.limit })
@@ -556,31 +556,31 @@ export default {
     },
     addToAkaGroup (newMember) {
       this.$store.state.actorList.isLoading = true
-      ky.post('/api/aka/add', {json: {actorList: [this.actor.name, newMember]}}).json().then(data => {        
+      ky.post('/api/aka/add', {json: {actorList: [this.actor.name, newMember]}}).json().then(data => {
         // delete old aka & add new name
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
         ky.get('/api/actor/'+this.actor.id).json().then(data => {
           if (data.id != 0){
-            this.$store.state.overlay.actordetails.actor = data          
-          }          
+            this.$store.state.overlay.actordetails.actor = data
+          }
         })
         this.$store.state.actorList.isLoading = false
       })
-      
+
     },
     removeFromAkaGroup (memberToRemove) {
       this.$store.state.actorList.isLoading = true
-      ky.post('/api/aka/remove', {json: {actorList: [this.actor.name, memberToRemove]}}).json().then(data => {        
+      ky.post('/api/aka/remove', {json: {actorList: [this.actor.name, memberToRemove]}}).json().then(data => {
         // delete old aka & add new name
         if (data.status != '') {
-          this.$buefy.toast.open({message: `Warning:  ${data.status}`, type: 'is-warning', duration: 5000})
+          this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.status }), type: 'is-warning', duration: 5000})
         }
-        ky.get('/api/actor/'+this.actor.id).json().then(data => {          
+        ky.get('/api/actor/'+this.actor.id).json().then(data => {
           if (data.id != 0){
-            this.$store.state.overlay.actordetails.actor = data          
-          }          
+            this.$store.state.overlay.actordetails.actor = data
+          }
         })
         this.$store.state.actorList.isLoading = false
       })
@@ -601,7 +601,7 @@ export default {
         if (this.akas.possible_akas[idx].name.startsWith("aka:")) {
           return false
         }
-      }      
+      }
       return true
     },
     getCastScenesUrl(actor) {
@@ -622,7 +622,7 @@ export default {
         this.$store.state.actorList.isLoading = true
         const lastSlashIndex = url.lastIndexOf('/');
         ky.get('/api/extref/stashdb/refresh_performer/'+url.substring(lastSlashIndex + 1)).then(data => {
-          ky.get('/api/actor/'+this.actor.id).json().then(data => {          
+          ky.get('/api/actor/'+this.actor.id).json().then(data => {
             if (data.id != 0){
               this.$store.state.overlay.actordetails.actor = data
               this.$store.state.actorList.isLoading = false
@@ -772,7 +772,7 @@ span.is-active img {
   margin: .8rem 0;
 }
 .image-row {
-  display: flex;  
+  display: flex;
 }
 .image-wrapper {
   position: relative;
@@ -807,18 +807,18 @@ div.scroll {
   overflow-y: auto;
   text-align: center;
 }
-.attribute-container {  
-  display: flex; 
+.attribute-container {
+  display: flex;
   flex-wrap: wrap;
 }
-.attribute-heading {  
-  width: 120px; 
+.attribute-heading {
+  width: 120px;
 }
-.attribute-data {  
-  width: 200px;  
+.attribute-data {
+  width: 200px;
 }
-.attribute-long-data {  
-  min-width: 320px;  
+.attribute-long-data {
+  min-width: 320px;
 }
 .flexcentre {
   display: flex;

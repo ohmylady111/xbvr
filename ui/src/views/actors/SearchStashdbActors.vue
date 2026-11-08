@@ -16,14 +16,14 @@
 
     <div class="modal-card" style="height: 80vh; width: 60vw; left: 10vw">
       <header class="modal-card-head">
-        <p class="modal-card-title">Search Stashdb Actors</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <p class="modal-card-title">{{ $t('Search Stashdb Actors') }}</p>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
 
       <div class="modal-card-body">
         <div >
-          <b-field label="Find actor...">
-            <b-input v-model="queryString" placeholder="Find actor..." @input="debouncedSearch" :loading="isFetching" custom-class="is-large"/>
+          <b-field :label="$t('Find actor...')">
+            <b-input v-model="queryString" :placeholder="$t('Find actor...')" @input="debouncedSearch" :loading="isFetching" custom-class="is-large"/>
           </b-field>
     
         <b-table :data="searchResults" @click="onRowSelected" >
@@ -53,7 +53,7 @@
                     </div>
                   <div v-if="props.row.DOB">
                     <span class="smaller-text">
-                      <strong>Birth Date:</strong>
+                      <strong>{{ $t('Birth Date:') }}</strong>
                     </span>
                   </div>
                   <div v-if="props.row.DOB">
@@ -61,7 +61,7 @@
                   </div>
                   <div>
                     <span class="smaller-text">
-                      <strong>Score:</strong> {{ props.row.Weight }}
+                      <strong>{{ $t('Score:') }}</strong> {{ props.row.Weight }}
                     </span>
                   </div>
                   <div>
@@ -77,7 +77,7 @@
                     </strong>
                   </div>
                   <div>
-                    <strong>Aliases:</strong>
+                    <strong>{{ $t('Aliases:') }}</strong>
                     <b-tag v-for="alias in props.row.Aliases" :key="alias.Alias" :class="{ 'is-primary': alias.Matched }"  style="margin-right: 2px;"> {{ alias.Alias }}</b-tag>
                   </div>
                   <div>                    
@@ -143,12 +143,12 @@ export default {
       this.$store.commit('overlay/hideSearchStashdbActors')
     },
     searchStashdb() {
-      this.$buefy.toast.open({message: `Searching Actors`, type: 'is-primary', duration: 5000})
+      this.$buefy.toast.open({message: this.$t("Searching Actors"), type: 'is-primary', duration: 5000})
         ky.get('/api/extref/stashdb/searchactor/' + this.actor.id + "?q=" + this.queryString, {timeout: 6e6}).json().then(data => {
             this.searchResults = Object.values(data.Results).sort((a, b) => b.Weight - a.Weight)
             this.isModalActive = true
             if (data.Status!='') {
-              this.$buefy.toast.open({message: `Warning:  ${data.Status}`, type: 'is-warning', duration: 5000})
+              this.$buefy.toast.open({message: this.$t("Warning:  {value0}", { value0: data.Status }), type: 'is-warning', duration: 5000})
             }
         })
     },

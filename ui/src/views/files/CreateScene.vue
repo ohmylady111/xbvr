@@ -4,7 +4,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ $t("Create Custom Scene") }}</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
       <section class="modal-card-body">
         <div>
@@ -16,8 +16,8 @@
             {{ format(parseISO(file.created_time), "yyyy-MM-dd") }}
           </small>
           <b-field :label="$t('Scene Id')" label-position="on-border" grouped>
-            <b-tooltip label="If blank a Scene Id will be generated but cannot be changed later"  :delay="500" >
-              <b-input v-model="sceneId" placeholder="Can be empty" ref="sceneIdInput"></b-input>
+            <b-tooltip :label="$t('If blank a Scene Id will be generated but cannot be changed later')"  :delay="500" >
+              <b-input v-model="sceneId" :placeholder="$t('Can be empty')" ref="sceneIdInput"></b-input>
             </b-tooltip>
           </b-field>
           <b-field :label="$t('Title')" label-position="on-border">            

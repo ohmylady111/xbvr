@@ -1,7 +1,7 @@
 <template>
   <a :class="buttonClass"
      @click="toggleState()"
-     :title="item.favourite ? 'Remove from favourites' : 'Add to favourites'">
+     :title="item.favourite ? $t('Remove from favourites') : $t('Add to favourites')">
     <b-icon pack="mdi" :icon="item.favourite ? 'heart' : 'heart-outline'" size="is-small"/>
   </a>
 </template>

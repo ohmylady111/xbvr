@@ -1,7 +1,7 @@
 <template>
   <a :class="buttonClass"
      @click="toggleState()"
-     :title="item.is_watched ? 'Mark as unwatched' : 'Mark as watched'">
+     :title="item.is_watched ? $t('Mark as unwatched') : $t('Mark as watched')">
     <b-icon pack="mdi" :icon="item.is_watched ? 'eye-check' : 'eye'" size="is-small"/>
   </a>
 </template>

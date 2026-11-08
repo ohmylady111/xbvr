@@ -10,7 +10,7 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">{{ $t('Edit actor details') }} - {{ actor.name }}</p>
-        <button class="delete" @click="close" aria-label="close"></button>
+        <button class="delete" @click="close" :aria-label="$t('close')"></button>
       </header>
 
       <section class="modal-card-body">
@@ -54,29 +54,29 @@
               </b-field>
               <b-field>
               <b-field v-if="useImperialEntry" :label="$t('Height feet/inches')" label-position="on-border">
-                <b-input type="number" v-model.number="actor.feet" min="0" max="10" placeholder="Height in feet" @blur="blur('height')" style="width: 5em;"/>
-                <b-input type="number" v-model.number="actor.inches" min="0" max="12" placeholder="Height in inches" @blur="blur('height')" style="width: 5em;"/>
+                <b-input type="number" v-model.number="actor.feet" min="0" max="10" :placeholder="$t('Height in feet')" @blur="blur('height')" style="width: 5em;"/>
+                <b-input type="number" v-model.number="actor.inches" min="0" max="12" :placeholder="$t('Height in inches')" @blur="blur('height')" style="width: 5em;"/>
               </b-field>
               </b-field>
               <b-field v-if="!useImperialEntry" :label="$t('Height')" label-position="on-border">
-                <b-input type="number" v-model.number="actor.height"  placeholder="Height in cm" @blur="blur('height')"/>
+                <b-input type="number" v-model.number="actor.height"  :placeholder="$t('Height in cm')" @blur="blur('height')"/>
               </b-field>
             </b-field>
             <b-field grouped group-multiline style="margin-bottom: 2em;">
               <b-field :label="$t('Measurements')" label-position="on-border">
-                <b-input type="text" v-model="actor.measurements" placeholder="eg 36C-24-36" pattern="(^(\d{2})?([A-Za-z]{0,2})-(\d{2})?-(\d{2}$)?)|^[A-Z]{0,2}$" validation-message="use the format 99A-99-99"
+                <b-input type="text" v-model="actor.measurements" :placeholder="$t('eg 36C-24-36')" pattern="(^(\d{2})?([A-Za-z]{0,2})-(\d{2})?-(\d{2}$)?)|^[A-Z]{0,2}$" validation-message="use the format 99A-99-99"
                   @blur="blur('measurements')"/>
               </b-field>
               <b-field :label="$t('Breast Type')" label-position="on-border">
-                <b-input type="text" v-model="actor.breast_type" placeholder="eg Fake, Natural" @blur="blur('breast_type')"/>
+                <b-input type="text" v-model="actor.breast_type" :placeholder="$t('eg Fake, Natural')" @blur="blur('breast_type')"/>
               </b-field>
             </b-field>
             <b-field grouped group-multiline style="margin-bottom: 2em;">
               <b-field :label="$t('Active From')" label-position="on-border">
-                <b-input type="number" v-model.number="actor.start_year" :max="new Date().getFullYear()" pattern="^[1-2]\d{1,3}$|^0$|^$"  validation-message="Up to the current year" @blur="blur('start_year')"/>
+                <b-input type="number" v-model.number="actor.start_year" :max="new Date().getFullYear()" pattern="^[1-2]\d{1,3}$|^0$|^$"  :validation-message="$t('Up to the current year')" @blur="blur('start_year')"/>
               </b-field>
               <b-field :label="$t('Active To')" label-position="on-border">
-                <b-input type="number" v-model.number="actor.end_year" :max="new Date().getFullYear()" pattern="^[1-2]\d{1,3}$|^0$|^$"  validation-message="Up to the current year" @blur="blur('end_year')"/>
+                <b-input type="number" v-model.number="actor.end_year" :max="new Date().getFullYear()" pattern="^[1-2]\d{1,3}$|^0$|^$"  :validation-message="$t('Up to the current year')" @blur="blur('end_year')"/>
               </b-field>
             </b-field>
             <b-field :label="$t('Biography')" label-position="on-border">
@@ -228,9 +228,9 @@ export default {
     close () {
       if (this.changesMade || this.extrefsChangesMade) {
         this.$buefy.dialog.confirm({
-          title: 'Close without saving',
-          message: 'Are you sure you want to close before saving your changes?',
-          confirmText: 'Close',
+          title: this.$t("Close without saving"),
+          message: this.$t("Are you sure you want to close before saving your changes?"),
+          confirmText: this.$t("Close"),
           type: 'is-warning',
           hasIcon: true,
           onConfirm: () => this.$store.commit('overlay/hideActorEditDetails')
@@ -295,8 +295,8 @@ export default {
     },
     deleteactor () {
       this.$buefy.dialog.confirm({
-        title: 'Delete actor',
-        message: `Do you really want to delete <strong>${this.actor.name}</strong>`,
+        title: this.$t("Delete actor"),
+        message: this.$t("Do you really want to delete <strong>{value0}</strong>", { value0: this.actor.name }),
         type: 'is-info is-wide',
         hasIcon: true,
         id: 'heh',
