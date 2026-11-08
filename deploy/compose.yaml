@@ -1,0 +1,20 @@
+services:
+  xbvr:
+    image: ghcr.io/ohmylady111/xbvr:zh-cn
+    container_name: xbvr-zh
+    restart: unless-stopped
+    # 群晖 Linux 使用 host 网络，让 DLNA 自动发现正常工作。
+    # host 模式不要再加 ports；9999/9998/1338 须无冲突。
+    network_mode: host
+    environment:
+      TZ: Asia/Shanghai
+      XBVR_APPDIR: /config
+    volumes:
+      - /volume1/docker/xbvr-zh/config:/config
+      # 改成你的实际 VR 视频目录；默认只读，保护媒体。
+      - /volume1/video/VR:/videos:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
